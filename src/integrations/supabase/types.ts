@@ -92,6 +92,42 @@ export type Database = {
         }
         Relationships: []
       }
+      operational_costs: {
+        Row: {
+          category: Database["public"]["Enums"]["cost_category"]
+          cost_amount: number
+          created_at: string
+          created_by: string | null
+          date_incurred: string
+          id: string
+          item_name: string
+          notes: string | null
+          updated_at: string
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["cost_category"]
+          cost_amount: number
+          created_at?: string
+          created_by?: string | null
+          date_incurred?: string
+          id?: string
+          item_name: string
+          notes?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["cost_category"]
+          cost_amount?: number
+          created_at?: string
+          created_by?: string | null
+          date_incurred?: string
+          id?: string
+          item_name?: string
+          notes?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           created_at: string
@@ -124,6 +160,48 @@ export type Database = {
           items?: Json
           status?: string
           total?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      premises_expenses: {
+        Row: {
+          amount: number
+          billing_period: Database["public"]["Enums"]["billing_period"]
+          created_at: string
+          created_by: string | null
+          due_date: string
+          expense_type: string
+          id: string
+          notes: string | null
+          paid_date: string | null
+          status: Database["public"]["Enums"]["expense_status"]
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          billing_period?: Database["public"]["Enums"]["billing_period"]
+          created_at?: string
+          created_by?: string | null
+          due_date: string
+          expense_type: string
+          id?: string
+          notes?: string | null
+          paid_date?: string | null
+          status?: Database["public"]["Enums"]["expense_status"]
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          billing_period?: Database["public"]["Enums"]["billing_period"]
+          created_at?: string
+          created_by?: string | null
+          due_date?: string
+          expense_type?: string
+          id?: string
+          notes?: string | null
+          paid_date?: string | null
+          status?: Database["public"]["Enums"]["expense_status"]
           updated_at?: string
         }
         Relationships: []
@@ -214,6 +292,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_sales_analytics: {
+        Args: { _from?: string; _granularity?: string; _to?: string }
+        Returns: {
+          bucket: string
+          order_count: number
+          revenue: number
+          units_sold: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -224,6 +311,9 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      billing_period: "one_time" | "weekly" | "monthly" | "quarterly" | "yearly"
+      cost_category: "ingredients" | "packaging" | "miscellaneous"
+      expense_status: "paid" | "unpaid" | "overdue"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -352,6 +442,9 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      billing_period: ["one_time", "weekly", "monthly", "quarterly", "yearly"],
+      cost_category: ["ingredients", "packaging", "miscellaneous"],
+      expense_status: ["paid", "unpaid", "overdue"],
     },
   },
 } as const
