@@ -58,6 +58,47 @@ function AdminDashboard() {
   const [filterAvail, setFilterAvail] = useState<"all" | "in" | "out">("all");
   const [editing, setEditing] = useState<ShopItem | null>(null);
 
+  // KPI summary state (last 30 days)
+  const [kpi, setKpi] = useState<{
+    revenue: number; units: number; orderCount: number;
+    costIngredients: number; costPackaging: number; costMisc: number; costTotal: number;
+    unpaidPremises: number;
+  } | null>(null);
+  const fetchCosts = useServerFn(listCosts);
+  const fetchPremises = useServerFn(listPremises);
+  const fetchAnalytics = useServerFn(getSalesAnalytics);
+
+  const loadKpi = useCallback(async () => {
+    try {
+      const fromISO = new Date(Date.now() - 30 * 86400_000).toISOString();
+      const toISO = new Date().toISOString();
+      const fromDate = fromISO.slice(0, 10);
+      const toDate = toISO.slice(0, 10);
+      const [sales, costsRes, premRes] = await Promise.all([
+        fetchAnalytics({ data: { granularity: "day", from: fromISO, to: toISO } }),
+        fetchCosts({ data: { from: fromDate, to: toDate } }),
+        fetchPremises({ data: {} }),
+      ]);
+      const costs = (costsRes.costs ?? []) as { category: string; cost_amount: number }[];
+      const premises = (premRes.premises ?? []) as { status: string; amount: number }[];
+      const byCat = costs.reduce((a: Record<string, number>, c) => {
+        a[c.category] = (a[c.category] || 0) + Number(c.cost_amount); return a;
+      }, {});
+      setKpi({
+        revenue: Number(sales.totals?.revenue) || 0,
+        units: Number(sales.totals?.units_sold) || 0,
+        orderCount: Number(sales.totals?.order_count) || 0,
+        costIngredients: byCat.ingredients || 0,
+        costPackaging: byCat.packaging || 0,
+        costMisc: byCat.miscellaneous || 0,
+        costTotal: costs.reduce((s, c) => s + Number(c.cost_amount), 0),
+        unpaidPremises: premises.filter(p => p.status !== "paid").reduce((s, p) => s + Number(p.amount), 0),
+      });
+    } catch (e: any) {
+      console.error("KPI load failed", e);
+    }
+  }, [fetchAnalytics, fetchCosts, fetchPremises]);
+
   const loadOrders = useCallback(async () => {
     const { data, error } = await supabase
       .from("orders")
@@ -108,13 +149,13 @@ function AdminDashboard() {
       const admin = !!roles?.some((r: any) => r.role === "admin");
       setIsAdmin(admin);
       setReady(true);
-      if (admin) { loadOrders(); loadItems(); }
+      if (admin) { loadOrders(); loadItems(); loadKpi(); }
     })();
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
       if (!session) nav({ to: "/admin/login" });
     });
     return () => sub.subscription.unsubscribe();
-  }, [nav, loadOrders, loadItems]);
+  }, [nav, loadOrders, loadItems, loadKpi]);
 
   useEffect(() => {
     if (!isAdmin) return;

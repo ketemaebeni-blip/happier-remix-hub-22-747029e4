@@ -43,38 +43,49 @@ const ApiPublicOrdersRoute = ApiPublicOrdersRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin/login': typeof AdminLoginRoute
   '/admin/import': typeof AdminImportRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/': typeof AdminIndexRoute
   '/api/public/orders': typeof ApiPublicOrdersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin/login': typeof AdminLoginRoute
   '/admin/import': typeof AdminImportRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin': typeof AdminIndexRoute
   '/api/public/orders': typeof ApiPublicOrdersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin/login': typeof AdminLoginRoute
   '/admin/import': typeof AdminImportRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/': typeof AdminIndexRoute
   '/api/public/orders': typeof ApiPublicOrdersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin/login' | '/admin/import' | '/admin/' | '/api/public/orders'
+  fullPaths:
+    | '/'
+    | '/admin/import'
+    | '/admin/login'
+    | '/admin/'
+    | '/api/public/orders'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin/login' | '/admin/import' | '/admin' | '/api/public/orders'
-  id: '__root__' | '/' | '/admin/login' | '/admin/import' | '/admin/' | '/api/public/orders'
+  to: '/' | '/admin/import' | '/admin/login' | '/admin' | '/api/public/orders'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin/import'
+    | '/admin/login'
+    | '/admin/'
+    | '/api/public/orders'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminLoginRoute: typeof AdminLoginRoute
   AdminImportRoute: typeof AdminImportRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   AdminIndexRoute: typeof AdminIndexRoute
   ApiPublicOrdersRoute: typeof ApiPublicOrdersRoute
 }
@@ -121,8 +132,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminLoginRoute: AdminLoginRoute,
   AdminImportRoute: AdminImportRoute,
+  AdminLoginRoute: AdminLoginRoute,
   AdminIndexRoute: AdminIndexRoute,
   ApiPublicOrdersRoute: ApiPublicOrdersRoute,
 }
