@@ -347,10 +347,13 @@ export function PremisesSection() {
 type Bucket = { bucket: string; order_count: number; units_sold: number; revenue: number };
 type Granularity = "day" | "week" | "month";
 
+const isoDaysAgo = (n: number) => new Date(Date.now() - n * 86400_000).toISOString().slice(0, 10);
+
 export function SalesSection() {
   const fetchAnalytics = useServerFn(getSalesAnalytics);
   const [granularity, setGranularity] = useState<Granularity>("day");
-  const [days, setDays] = useState<number>(30);
+  const [fromDate, setFromDate] = useState<string>(isoDaysAgo(30));
+  const [toDate, setToDate] = useState<string>(today());
   const [buckets, setBuckets] = useState<Bucket[]>([]);
   const [totals, setTotals] = useState({ order_count: 0, units_sold: 0, revenue: 0 });
   const [loading, setLoading] = useState(true);
@@ -358,15 +361,20 @@ export function SalesSection() {
   async function load() {
     setLoading(true);
     try {
-      const from = new Date(Date.now() - days * 86400_000).toISOString();
-      const to = new Date().toISOString();
+      const from = new Date(fromDate + "T00:00:00").toISOString();
+      const to = new Date(toDate + "T23:59:59").toISOString();
       const res = await fetchAnalytics({ data: { granularity, from, to } });
       setBuckets((res.buckets ?? []) as Bucket[]);
       setTotals(res.totals);
     } catch (e: any) { alert(e.message); }
     setLoading(false);
   }
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [granularity, days]);
+  useEffect(() => { load(); /* eslint-disable-next-line */ }, [granularity, fromDate, toDate]);
+
+  function applyPreset(days: number) {
+    setFromDate(isoDaysAgo(days));
+    setToDate(today());
+  }
 
   const max = useMemo(() => Math.max(1, ...buckets.map((b) => Number(b.revenue))), [buckets]);
   const fmtBucket = (s: string) => {
@@ -379,7 +387,7 @@ export function SalesSection() {
   return (
     <>
       <h1 className="ma-page-title">Sales & Volume Tracking</h1>
-      <p className="ma-page-sub">Aggregated sales totals by day, week, or month.</p>
+      <p className="ma-page-sub">Aggregated sales totals — pick any custom date range.</p>
 
       <div className="ma-stats">
         <div className="ma-stat"><span className="ma-stat-icon"><BarChart3 size={22} /></span>
@@ -391,19 +399,23 @@ export function SalesSection() {
       </div>
 
       <section className="ma-card">
-        <div className="ma-card-head">
+        <div className="ma-card-head" style={{ flexWrap: "wrap", gap: 10 }}>
           <h2>Trend</h2>
-          <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+            {[7, 14, 30, 60, 90, 365].map((d) => (
+              <button key={d} type="button" className="ma-icon-btn" onClick={() => applyPreset(d)}>
+                {d === 365 ? "1y" : `${d}d`}
+              </button>
+            ))}
+            <input type="date" className="ma-input" value={fromDate} max={toDate}
+              onChange={(e) => setFromDate(e.target.value)} />
+            <span style={{ color: "#6b7280" }}>→</span>
+            <input type="date" className="ma-input" value={toDate} min={fromDate} max={today()}
+              onChange={(e) => setToDate(e.target.value)} />
             <select value={granularity} onChange={(e) => setGranularity(e.target.value as Granularity)} className="ma-input">
               <option value="day">By day</option>
               <option value="week">By week</option>
               <option value="month">By month</option>
-            </select>
-            <select value={days} onChange={(e) => setDays(Number(e.target.value))} className="ma-input">
-              <option value={7}>Last 7 days</option>
-              <option value={30}>Last 30 days</option>
-              <option value={90}>Last 90 days</option>
-              <option value={365}>Last 12 months</option>
             </select>
           </div>
         </div>
