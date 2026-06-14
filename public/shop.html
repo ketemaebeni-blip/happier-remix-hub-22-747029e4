@@ -1,0 +1,2402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#FDF6EE" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#2E1503" media="(prefers-color-scheme: dark)" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>Selam Cake Shop</title>
+  <meta name="description" content="Selam Cake Shop — Handcrafted cakes, cupcakes & pastries baked fresh daily." />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,600&family=Pacifico&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --blush: #F9D9D3;
+      --blush-dark: #F0B8AE;
+      --cream: #FDF6EE;
+      --peach: #FAC5A3;
+      --peach-dark: #F5A57A;
+      --choc: #2E1503;
+      --choc-mid: #6B3A2A;
+      --choc-light: #A0522D;
+      --muted: #9A7B72;
+      --white: #FFFFFF;
+      --hero-pink: #F5B8C4;
+      --hero-pink-dark: #EFA0B0;
+      --nav-h: 100px;
+      --top-h: 56px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+
+    html { 
+      scroll-behavior: smooth; 
+      -webkit-text-size-adjust: 100%;
+      overscroll-behavior-y: none;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--choc);
+      color: var(--choc);
+      min-height: 100dvh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; -ms-overflow-style: none; }
+
+    #app {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100dvh;
+      margin: 0 auto;
+      background: var(--cream);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (min-width: 768px) {
+      #app {
+        position: relative;
+        max-width: 430px;
+        margin: 0 auto;
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 25px 80px rgba(0,0,0,0.25);
+      }
+      body { background: #1a0f0a; }
+    }
+
+    .page {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      background: var(--cream);
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .page.active {
+      display: flex;
+      z-index: 20;
+    }
+
+    .page-scrollable {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+      padding-bottom: calc(var(--nav-h) + var(--safe-bottom) + 20px);
+    }
+
+    .top-nav {
+      position: relative;
+      z-index: 80;
+      height: var(--top-h);
+      background: rgba(253, 246, 238, .85);
+      backdrop-filter: blur(24px) saturate(1.2);
+      -webkit-backdrop-filter: blur(24px) saturate(1.2);
+      border-bottom: 1px solid rgba(240, 184, 174, .25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-shrink: 0;
+    }
+
+    .top-nav-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--choc);
+      letter-spacing: -0.02em;
+    }
+
+    .hero-wrap {
+      background: linear-gradient(160deg, #F8C1CC 0%, #F5B4C1 40%, #F0A8B8 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 20px 20px 40px;
+      margin-top: calc(var(--safe-top) * -1);
+      padding-top: calc(20px + var(--safe-top));
+      flex-shrink: 0;
+    }
+
+    .hero-search-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-search-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, .92);
+      border-radius: 16px;
+      padding: 12px 16px;
+      box-shadow: 0 2px 12px rgba(46, 21, 3, .06);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.2s;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .hero-search-box:active { transform: scale(0.97); }
+
+    .hero-search-text {
+      font-size: .9rem;
+      color: #b09095;
+      font-weight: 500;
+    }
+
+    .hero-cart-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .92);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 2px 12px rgba(46, 21, 3, .08);
+      flex-shrink: 0;
+      transition: transform 0.15s ease;
+    }
+
+    .hero-cart-btn:active { transform: scale(0.9); }
+
+    .hero-brand-section {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .hero-bakery-name {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.4rem, 10vw, 3.2rem);
+      color: var(--choc);
+      line-height: 1.05;
+      margin-bottom: 6px;
+      letter-spacing: -.01em;
+    }
+
+    .hero-tagline {
+      font-size: .82rem;
+      color: rgba(46, 21, 3, .55);
+      font-weight: 500;
+      letter-spacing: .01em;
+    }
+
+    .hero-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, .7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--choc-mid);
+      margin-top: 16px;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #E5533A;
+      animation: pulseDot 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    .hero-drip {
+      display: block;
+      width: 100%;
+      height: 70px;
+      position: relative;
+      z-index: 2;
+      margin-top: -2px;
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+
+    .sec-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--choc-mid);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sec-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--choc);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .available-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 20px rgba(46, 21, 3, .08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.2s var(--spring), box-shadow 0.2s ease;
+      border: 1px solid rgba(240, 184, 174, .3);
+      margin: 0 20px;
+      position: relative;
+      z-index: 10;
+      margin-top: -10px;
+      flex-shrink: 0;
+    }
+
+    .available-card:active { transform: scale(0.97); }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px 14px;
+      padding: 8px 20px 20px;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: 24px;
+      position: relative;
+      overflow: visible;
+      box-shadow: 0 2px 16px rgba(46, 21, 3, .07);
+      transition: transform 0.25s var(--spring), box-shadow 0.25s ease;
+      cursor: pointer;
+      border: 1px solid rgba(240, 184, 174, .2);
+    }
+
+    .product-card:active { transform: scale(0.96); }
+
+    .product-card-img {
+      width: calc(100% - 48px);
+      height: 120px;
+      object-fit: cover;
+      border-radius: 18px;
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      pointer-events: none;
+      box-shadow: 0 8px 24px rgba(46, 21, 3, .15);
+    }
+
+    .product-card-body {
+      padding: 100px 14px 14px;
+      text-align: left;
+    }
+    .product-card.sold-out { opacity: .55; filter: grayscale(.35); }
+    .product-card.sold-out::after {
+      content: "Sold Out";
+      position: absolute; top: 10px; right: 10px;
+      background: var(--choc); color: #fff;
+      font-size: .65rem; font-weight: 800; letter-spacing: .04em;
+      padding: 4px 10px; border-radius: 999px; z-index: 11;
+    }
+    .product-list-item.sold-out { opacity: .55; filter: grayscale(.35); }
+    .product-list-item.sold-out::after {
+      content: "Sold Out";
+      position: absolute; top: 8px; right: 10px;
+      background: var(--choc); color: #fff;
+      font-size: .6rem; font-weight: 800;
+      padding: 3px 8px; border-radius: 999px;
+    }
+    .cust-input {
+      width: 100%; padding: 10px 12px; margin-bottom: 8px;
+      border-radius: 12px; border: 1px solid rgba(240,184,174,.5);
+      font-size: .85rem; font-family: inherit; background: var(--cream); color: var(--choc);
+      box-sizing: border-box;
+    }
+    .cust-input:focus { outline: none; border-color: var(--choc-mid); }
+
+    .product-card-name {
+      font-size: .85rem;
+      font-weight: 800;
+      color: var(--choc);
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .product-card-sub {
+      font-size: .68rem;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-card-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blush), transparent);
+      margin-bottom: 10px;
+    }
+
+    .product-card-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2px;
+    }
+
+    .product-card-price {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--choc);
+    }
+
+    .cat-from {
+      font-size: .65rem;
+      color: var(--muted);
+      font-weight: 500;
+      display: block;
+    }
+
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 8px 20px 20px;
+    }
+
+    .product-list-item {
+      background: var(--white);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      box-shadow: 0 2px 16px rgba(46, 21, 3, .07);
+      transition: transform 0.2s var(--spring);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(240, 184, 174, .2);
+    }
+
+    .product-list-item:active { transform: scale(0.97); }
+
+    .product-list-img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(46, 21, 3, .12);
+    }
+
+    .product-list-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .product-list-name {
+      font-size: .9rem;
+      font-weight: 800;
+      color: var(--choc);
+      line-height: 1.2;
+      margin-bottom: 3px;
+    }
+
+    .product-list-sub {
+      font-size: .72rem;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-list-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .product-list-price {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--choc);
+    }
+
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .step-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      transition: transform 0.12s ease, opacity 0.12s;
+      font-size: 1.1rem;
+    }
+
+    .step-btn:active { transform: scale(0.85); }
+
+    .step-btn.minus {
+      background: var(--blush);
+      color: var(--choc);
+    }
+
+    .step-btn.plus {
+      background: var(--choc);
+      color: white;
+    }
+
+    .step-count {
+      min-width: 24px;
+      text-align: center;
+      font-size: .9rem;
+      font-weight: 800;
+      color: var(--choc);
+    }
+
+    .detail-hero-wrap { 
+      position: relative; 
+      margin-top: calc(var(--safe-top) * -1);
+      flex-shrink: 0;
+    }
+
+    .detail-hero-img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .detail-hero-grad {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(46, 21, 3, .02) 0%, rgba(46, 21, 3, .6) 100%);
+    }
+
+    .detail-hero-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px 20px 20px;
+    }
+
+    .detail-float-img {
+      position: absolute;
+      right: 20px;
+      bottom: -30px;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid var(--white);
+      box-shadow: 0 8px 24px rgba(46, 21, 3, .18);
+      animation: floatB 6s ease-in-out infinite;
+      z-index: 20;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: calc(12px + var(--safe-top));
+      left: 16px;
+      z-index: 30;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .92);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 12px rgba(46, 21, 3, .1);
+      transition: transform 0.15s ease;
+    }
+
+    .back-btn:active { transform: scale(0.9); }
+
+    /* ============================================
+       MODERN BOTTOM NAVIGATION
+       ============================================ */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      z-index: 90;
+      padding: 0 24px calc(16px + var(--safe-bottom));
+      background: transparent;
+      pointer-events: none;
+    }
+
+    .nav-pill-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(46, 21, 3, .82);
+      backdrop-filter: blur(28px) saturate(1.4);
+      -webkit-backdrop-filter: blur(28px) saturate(1.4);
+      border-radius: 36px;
+      padding: 8px 10px;
+      box-shadow: 
+        0 12px 40px rgba(46, 21, 3, .35),
+        0 4px 12px rgba(46, 21, 3, .2),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+      pointer-events: all;
+      height: 72px;
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+
+    /* Active sliding indicator pill */
+    .nav-indicator {
+      position: absolute;
+      top: 8px;
+      height: 56px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.10);
+      transition: all 0.4s var(--spring);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 6px 4px;
+      border-radius: 24px;
+      transition: all 0.3s var(--spring);
+      position: relative;
+      z-index: 2;
+    }
+
+    .nav-item .nav-label {
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      color: rgba(255, 255, 255, .35);
+      transition: all 0.3s var(--spring);
+      transform: translateY(0);
+    }
+
+    .nav-item.active .nav-label { 
+      color: rgba(255, 255, 255, .95); 
+      transform: translateY(0);
+    }
+
+    .nav-item .nav-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.35s var(--spring);
+      background: transparent;
+      position: relative;
+    }
+
+    .nav-item.active .nav-icon-wrap {
+      background: rgba(255, 255, 255, .12);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Center cart button area */
+    .nav-center-wrap {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .nav-center-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--blush) 0%, var(--peach) 50%, var(--peach-dark) 100%);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 
+        0 6px 24px rgba(249, 180, 150, .45),
+        0 2px 8px rgba(46, 21, 3, .15),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+      transition: all 0.3s var(--spring);
+      position: relative;
+      margin-top: -28px;
+    }
+
+    .nav-center-btn::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(249,217,211,.4), rgba(250,197,163,.2));
+      z-index: -1;
+      filter: blur(8px);
+      opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+
+    .nav-center-btn:active { 
+      transform: scale(0.88) translateY(2px); 
+      box-shadow: 0 3px 12px rgba(249, 180, 150, .3);
+    }
+
+    .nav-center-btn:active::before {
+      opacity: 0.3;
+    }
+
+    .nav-pill {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: #E5533A;
+      color: white;
+      border-radius: 999px;
+      min-width: 20px;
+      height: 20px;
+      font-size: .65rem;
+      font-weight: 800;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+      line-height: 1;
+      border: 2.5px solid var(--choc);
+      box-shadow: 0 2px 6px rgba(229, 83, 58, .4);
+      animation: badgePop 0.4s var(--spring);
+    }
+
+    .nav-pill.show { display: flex; }
+
+    @keyframes badgePop {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    /* Floating total label */
+    .nav-total-label {
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--choc);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      white-space: nowrap;
+      opacity: 0;
+      transition: all 0.35s var(--spring);
+      pointer-events: none;
+      box-shadow: 0 6px 20px rgba(46, 21, 3, .25);
+      z-index: 91;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-total-label.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
+    /* ============================================
+       END BOTTOM NAV
+       ============================================ */
+
+    .sheet-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(46, 21, 3, .4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .sheet-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .sheet-panel {
+      background: var(--cream);
+      border-radius: 28px 28px 0 0;
+      width: 100%;
+      max-width: 430px;
+      padding: 0;
+      transform: translateY(100%);
+      transition: transform 0.45s var(--spring);
+      max-height: 85dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 -10px 40px rgba(46, 21, 3, .2);
+    }
+
+    .sheet-overlay.show .sheet-panel { transform: translateY(0); }
+
+    .sheet-handle-wrap {
+      padding: 12px 0 4px;
+      display: flex;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sheet-handle {
+      width: 36px;
+      height: 5px;
+      border-radius: 3px;
+      background: var(--blush-dark);
+      opacity: 0.6;
+    }
+
+    .sheet-head {
+      padding: 12px 20px 0;
+      flex-shrink: 0;
+    }
+
+    .sheet-scroll {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+      padding: 0 20px;
+    }
+
+    .sheet-footer {
+      padding: 16px 20px calc(16px + var(--safe-bottom));
+      background: var(--cream);
+      border-top: 1px solid rgba(240, 184, 174, .3);
+      flex-shrink: 0;
+    }
+
+    .search-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 12px 16px;
+      box-shadow: 0 2px 12px rgba(46, 21, 3, .06);
+      border: 1.5px solid transparent;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input-wrap:focus-within {
+      border-color: var(--blush-dark);
+      box-shadow: 0 4px 20px rgba(46, 21, 3, .1);
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: none;
+      font-family: inherit;
+      font-size: .95rem;
+      color: var(--choc);
+      font-weight: 500;
+    }
+
+    .search-input::placeholder { color: var(--muted); font-weight: 400; }
+
+    .toast {
+      position: fixed;
+      bottom: calc(var(--nav-h) + var(--safe-bottom) + 20px);
+      left: 50%;
+      z-index: 300;
+      transform: translateX(-50%) translateY(20px) scale(0.9);
+      background: rgba(46, 21, 3, .92);
+      backdrop-filter: blur(12px);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 16px;
+      font-size: .82rem;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s var(--spring);
+      white-space: nowrap;
+      max-width: 85vw;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    .empty-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: var(--blush);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+
+    .about-hero {
+      background: linear-gradient(145deg, var(--choc) 0%, #5A2D18 100%);
+      border-radius: 24px;
+      padding: 28px 22px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      margin: 0 20px 20px;
+    }
+
+    .about-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 0 20px 20px;
+    }
+
+    .about-stat-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 18px 10px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(46, 21, 3, .06);
+    }
+
+    .about-value-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      box-shadow: 0 2px 12px rgba(46, 21, 3, .05);
+      margin: 0 20px;
+      margin-bottom: 12px;
+    }
+
+    .about-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .about-team-img {
+      width: calc(100% - 40px);
+      height: 180px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 6px 24px rgba(46, 21, 3, .12);
+      margin: 0 20px 20px;
+      display: block;
+    }
+
+    .about-contact-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: 0 2px 10px rgba(46, 21, 3, .05);
+      margin: 0 20px;
+      margin-bottom: 10px;
+    }
+
+    .about-contact-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--white);
+      border: 1.5px solid rgba(240, 184, 174, .4);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--choc-mid);
+      box-shadow: 0 2px 8px rgba(46, 21, 3, .04);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .chip:active { transform: scale(0.95); background: var(--blush); }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(240, 184, 174, .3);
+    }
+
+    .cart-item-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 14px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(46, 21, 3, .1);
+    }
+
+    .cart-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cart-item-name {
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--choc);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cart-item-meta {
+      font-size: .75rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .cart-item-price {
+      font-size: .95rem;
+      font-weight: 800;
+      color: var(--choc);
+    }
+
+    .cart-item-delete {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--blush);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.1s;
+    }
+
+    .cart-item-delete:active { transform: scale(0.9); background: var(--blush-dark); }
+
+    .checkout-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--choc), var(--choc-mid));
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 20px;
+      padding: 18px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 6px 24px rgba(46, 21, 3, .3);
+      transition: transform 0.15s ease, box-shadow 0.2s;
+    }
+
+    .checkout-btn:active { transform: scale(0.97); }
+
+    .delivery-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px;
+      background: var(--white);
+      border-radius: 16px;
+      margin-bottom: 14px;
+      border: 1px solid rgba(240, 184, 174, .2);
+    }
+
+    .section-pad { padding: 24px 20px 8px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floatB {
+      0%, 100% { transform: translateY(0) rotate(2deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: .5; }
+    }
+
+    .fade-up { animation: fadeUp .45s var(--ease-out-expo) both; }
+    .d1 { animation-delay: .04s; }
+    .d2 { animation-delay: .1s; }
+    .d3 { animation-delay: .16s; }
+    .d4 { animation-delay: .22s; }
+    .d5 { animation-delay: .28s; }
+    .d6 { animation-delay: .34s; }
+
+    #splash-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: linear-gradient(135deg, #F9D9D3 0%, #FDF6EE 50%, #FAC5A3 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      opacity: 1;
+      transition: opacity 0.8s var(--ease-out-expo), visibility 0.8s;
+    }
+
+    #splash-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .splash-container {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .splash-blob {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #F5B8C4 0%, #F0A8B8 50%, #E5533A 100%);
+      opacity: 0.7;
+      will-change: transform;
+      filter: blur(6px);
+    }
+
+    .splash-blob:nth-child(1) { width: 70px; height: 70px; top: 50%; left: 50%; margin: -35px 0 0 -35px; animation: blob-morph-1 4s ease-in-out infinite; }
+    .splash-blob:nth-child(2) { width: 55px; height: 55px; top: 50%; left: 50%; margin: -27.5px 0 0 -27.5px; animation: blob-morph-2 4s ease-in-out infinite; animation-delay: -0.4s; }
+    .splash-blob:nth-child(3) { width: 45px; height: 45px; top: 50%; left: 50%; margin: -22.5px 0 0 -22.5px; animation: blob-morph-3 4s ease-in-out infinite; animation-delay: -0.8s; }
+    .splash-blob:nth-child(4) { width: 60px; height: 60px; top: 50%; left: 50%; margin: -30px 0 0 -30px; animation: blob-morph-4 4s ease-in-out infinite; animation-delay: -1.2s; }
+    .splash-blob:nth-child(5) { width: 50px; height: 50px; top: 50%; left: 50%; margin: -25px 0 0 -25px; animation: blob-morph-5 4s ease-in-out infinite; animation-delay: -1.6s; }
+    .splash-blob:nth-child(6) { width: 65px; height: 65px; top: 50%; left: 50%; margin: -32.5px 0 0 -32.5px; animation: blob-morph-6 4s ease-in-out infinite; animation-delay: -2s; }
+    .splash-blob:nth-child(7) { width: 40px; height: 40px; top: 50%; left: 50%; margin: -20px 0 0 -20px; animation: blob-morph-7 4s ease-in-out infinite; animation-delay: -2.4s; }
+    .splash-blob:nth-child(8) { width: 72px; height: 72px; top: 50%; left: 50%; margin: -36px 0 0 -36px; animation: blob-morph-8 4s ease-in-out infinite; animation-delay: -2.8s; }
+    .splash-blob:nth-child(9) { width: 48px; height: 48px; top: 50%; left: 50%; margin: -24px 0 0 -24px; animation: blob-morph-9 4s ease-in-out infinite; animation-delay: -3.2s; }
+
+    @keyframes blob-morph-1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(50px, -35px) scale(1.15); }
+      50% { transform: translate(-25px, 40px) scale(0.9); }
+      75% { transform: translate(-40px, -25px) scale(1.1); }
+    }
+    @keyframes blob-morph-2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(-40px, 25px) scale(0.85); }
+      50% { transform: translate(35px, -40px) scale(1.2); }
+      75% { transform: translate(25px, 35px) scale(1); }
+    }
+    @keyframes blob-morph-3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(35px, 40px) scale(1.1); }
+      50% { transform: translate(-50px, -15px) scale(0.85); }
+      75% { transform: translate(15px, -35px) scale(1.15); }
+    }
+    @keyframes blob-morph-4 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(-35px, -40px) scale(0.9); }
+      50% { transform: translate(45px, 25px) scale(1.1); }
+      75% { transform: translate(-15px, 35px) scale(1); }
+    }
+    @keyframes blob-morph-5 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(25px, -25px) scale(1.2); }
+      50% { transform: translate(-35px, -35px) scale(0.8); }
+      75% { transform: translate(45px, 15px) scale(1.05); }
+    }
+    @keyframes blob-morph-6 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(-50px, 15px) scale(0.85); }
+      50% { transform: translate(25px, -25px) scale(1.15); }
+      75% { transform: translate(-25px, -40px) scale(1); }
+    }
+    @keyframes blob-morph-7 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(45px, 35px) scale(1.05); }
+      50% { transform: translate(-15px, 45px) scale(0.9); }
+      75% { transform: translate(-35px, -15px) scale(1.1); }
+    }
+    @keyframes blob-morph-8 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(-25px, -35px) scale(1.15); }
+      50% { transform: translate(55px, 8px) scale(0.85); }
+      75% { transform: translate(-45px, 25px) scale(1.05); }
+    }
+    @keyframes blob-morph-9 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(15px, 45px) scale(0.9); }
+      50% { transform: translate(-45px, -25px) scale(1.15); }
+      75% { transform: translate(35px, -15px) scale(1); }
+    }
+
+    .splash-text {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .splash-text h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.6rem;
+      color: var(--choc);
+      text-shadow: 0 2px 16px rgba(46, 21, 3, 0.12);
+      margin: 0;
+      animation: text-reveal 3.5s var(--ease-out-expo) forwards;
+    }
+
+    .splash-text p {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--choc-mid);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 10px;
+      opacity: 0;
+      animation: text-fade-in 3.5s var(--ease-out-expo) forwards;
+    }
+
+    @keyframes text-reveal {
+      0% { opacity: 0; transform: translateY(24px) scale(0.92); }
+      25% { opacity: 1; transform: translateY(0) scale(1); }
+      85% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes text-fade-in {
+      0%, 35% { opacity: 0; transform: translateY(12px); }
+      55% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    #splash-overlay.exiting {
+      animation: splash-exit 0.7s var(--ease-out-expo) forwards;
+    }
+
+    @keyframes splash-exit {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.04); }
+    }
+
+    .home-indicator {
+      height: 5px;
+      width: 134px;
+      background: var(--choc);
+      border-radius: 100px;
+      position: fixed;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 95;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    @media (min-width: 768px) {
+      .home-indicator { display: none; }
+    }
+
+    .search-chip-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 12px 0 16px;
+    }
+
+    .search-result-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(240, 184, 174, .25);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .search-result-item:active { transform: scale(0.98); }
+
+    .search-result-img {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: 14px;
+      flex-shrink: 0;
+    }
+
+    .search-result-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .search-result-name {
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--choc);
+      margin-bottom: 2px;
+    }
+
+    .search-result-price {
+      font-size: .9rem;
+      font-weight: 800;
+      color: var(--choc-mid);
+    }
+
+    .qty-badge {
+      background: var(--choc);
+      color: white;
+      font-size: .65rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-left: 6px;
+    }
+
+    /* ============================================
+       RESPONSIVE — TABLET & DESKTOP
+       Minimalist, wider canvas. Mobile shell preserved.
+       ============================================ */
+    @media (min-width: 768px) {
+      body { background: #1a0f0a; }
+      #app {
+        position: relative;
+        max-width: 760px;
+        height: 100dvh;
+        margin: 0 auto;
+        border-radius: 28px;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 30px 90px rgba(0,0,0,0.35);
+        overflow: hidden;
+      }
+      .card-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px 20px;
+        padding: 12px 32px 28px;
+      }
+      .product-card-img { height: 150px; }
+      .product-card-body { padding-top: 140px; }
+      .bottom-nav { max-width: 520px; padding-bottom: calc(18px + var(--safe-bottom)); }
+      .sheet-panel { max-width: 560px; border-radius: 28px; max-height: 82dvh; margin-bottom: 24px; }
+      .sheet-overlay { align-items: center; }
+    }
+
+    @media (min-width: 1024px) {
+      #app {
+        max-width: 1080px;
+        border-radius: 32px;
+      }
+      .card-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 28px 24px;
+        padding: 16px 44px 32px;
+      }
+      .product-card-img { height: 170px; }
+      .product-card-body { padding-top: 160px; }
+      .bottom-nav { max-width: 600px; }
+      .sheet-panel { max-width: 640px; }
+    }
+
+    @media (min-width: 1280px) {
+      #app { max-width: 1240px; }
+      .card-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 32px 28px;
+        padding: 20px 56px 36px;
+      }
+      .product-card-img { height: 190px; }
+      .product-card-body { padding-top: 180px; }
+    }
+  </style>
+  <base target="_blank">
+</head>
+
+<body>
+
+  <!-- SPLASH SCREEN -->
+  <div id="splash-overlay" aria-hidden="true">
+    <div class="splash-container">
+      <div class="splash-liquid">
+        <div class="splash-blob"></div>
+        <div class="splash-blob"></div>
+        <div class="splash-blob"></div>
+        <div class="splash-blob"></div>
+        <div class="splash-blob"></div>
+        <div class="splash-blob"></div>
+        <div class="splash-blob"></div>
+        <div class="splash-blob"></div>
+        <div class="splash-blob"></div>
+      </div>
+      <div class="splash-text">
+        <h1>Selam Cake</h1>
+        <p>Handcrafted with Love</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="app">
+
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page active" role="main">
+      <div class="page-scrollable">
+        <section class="hero-wrap" aria-labelledby="heroHeading">
+          <div class="hero-search-row fade-up d1">
+            <div class="hero-search-box" onclick="openSearchSheet()" role="button" tabindex="0" aria-label="Search cakes">
+              <i data-lucide="search" style="width:18px;height:18px;color:#b09095;stroke-width:2.5;flex-shrink:0;"></i>
+              <span class="hero-search-text">Search cakes...</span>
+            </div>
+            <button class="hero-cart-btn" onclick="openCart()" aria-label="Open cart">
+              <i data-lucide="shopping-bag" style="width:20px;height:20px;color:var(--choc-mid);stroke-width:2;"></i>
+              <span id="heroCartBadge" class="nav-pill">0</span>
+            </button>
+          </div>
+
+          <div class="hero-brand-section fade-up d2">
+            <h1 id="heroHeading" class="hero-bakery-name">Selam Cake Shop</h1>
+            <p class="hero-tagline" style="margin-top:10px;">Handcrafted daily with love</p>
+            <div class="hero-feature-pill fade-up d3">
+              <span class="live-dot"></span>
+              Fresh baked today · 24 items
+            </div>
+          </div>
+        </section>
+
+        <svg class="hero-drip" viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,0 C60,18 120,42 180,28 C240,14 300,52 360,38 C420,24 480,56 540,42 C600,28 660,58 720,44 C780,30 840,54 900,40 C960,26 1020,50 1080,36 C1140,22 1200,48 1260,34 C1320,20 1380,42 1440,28 L1440,100 L0,100 Z" fill="#F0A8B8" />
+        </svg>
+
+        <div class="available-card fade-up d2" onclick="openAvailableToday()" role="button" tabindex="0" aria-label="View items available today">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,var(--blush),var(--peach));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(249,180,150,.3);">
+              <i data-lucide="store" style="width:22px;height:22px;color:var(--choc-mid);stroke-width:2;"></i>
+            </div>
+            <div>
+              <div style="font-size:1rem;font-weight:800;color:var(--choc);line-height:1.2;">Available Today</div>
+              <div style="font-size:.78rem;color:var(--muted);margin-top:2px;">Fresh bakes ready to go</div>
+            </div>
+          </div>
+          <div style="width:32px;height:32px;border-radius:10px;background:var(--blush);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i data-lucide="chevron-right" style="width:16px;height:16px;color:var(--choc-mid);stroke-width:2.5;"></i>
+          </div>
+        </div>
+
+        <section class="section-pad" aria-labelledby="menuHeading">
+          <div class="fade-up" style="margin-bottom:16px;">
+            <div class="sec-label">
+              <i data-lucide="sun" style="width:12px;height:12px;color:var(--choc-mid);stroke-width:2.5;"></i>
+              What's Fresh
+            </div>
+            <h2 id="menuHeading" class="sec-title">Today's Menu</h2>
+          </div>
+
+          <div class="card-grid">
+            <div class="product-card fade-up d1" onclick="openCategory('fasting')" role="button" tabindex="0" aria-label="Fasting Cakes">
+              <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop" alt="Fasting cakes" class="product-card-img" loading="lazy" />
+              <div class="product-card-body">
+                <div class="product-card-name">Fasting Cakes</div>
+                <div class="product-card-sub">Plant-based, vegan-friendly delights</div>
+                <div class="product-card-rule"></div>
+                <div class="product-card-foot">
+                  <div><span class="cat-from">from</span><span class="product-card-price">$32</span></div>
+                  <div style="width:28px;height:28px;border-radius:50%;background:var(--blush);display:flex;align-items:center;justify-content:center;">
+                    <i data-lucide="arrow-right" style="width:12px;height:12px;color:var(--choc-mid);stroke-width:2.5;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-card fade-up d2" onclick="openCategory('kerestena')" role="button" tabindex="0" aria-label="Kerestena Cakes">
+              <img src="https://images.unsplash.com/photo-1535141192574-5d4897c12636?w=400&h=300&fit=crop" alt="Kerestena cake" class="product-card-img" loading="lazy" />
+              <div class="product-card-body">
+                <div class="product-card-name">Kerestena</div>
+                <div class="product-card-sub">Holy communion & christening cakes</div>
+                <div class="product-card-rule"></div>
+                <div class="product-card-foot">
+                  <div><span class="cat-from">from</span><span class="product-card-price">$42</span></div>
+                  <div style="width:28px;height:28px;border-radius:50%;background:var(--blush);display:flex;align-items:center;justify-content:center;">
+                    <i data-lucide="arrow-right" style="width:12px;height:12px;color:var(--choc-mid);stroke-width:2.5;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-card fade-up d3" onclick="openCategory('yeshemgelena')" role="button" tabindex="0" aria-label="Yeshemgelena Cakes">
+              <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&h=300&fit=crop" alt="Yeshemgelena cakes" class="product-card-img" loading="lazy" />
+              <div class="product-card-body">
+                <div class="product-card-name">Yeshemgelena</div>
+                <div class="product-card-sub">Baby shower & gender reveal cakes</div>
+                <div class="product-card-rule"></div>
+                <div class="product-card-foot">
+                  <div><span class="cat-from">from</span><span class="product-card-price">$38</span></div>
+                  <div style="width:28px;height:28px;border-radius:50%;background:#F3F0FF;display:flex;align-items:center;justify-content:center;">
+                    <i data-lucide="arrow-right" style="width:12px;height:12px;color:#6B3AED;stroke-width:2.5;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-card fade-up d4" onclick="openCategory('graduation')" role="button" tabindex="0" aria-label="Graduation Cakes">
+              <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&h=300&fit=crop" alt="Graduation cakes" class="product-card-img" loading="lazy" />
+              <div class="product-card-body">
+                <div class="product-card-name">Graduation</div>
+                <div class="product-card-sub">Celebrate achievements in style</div>
+                <div class="product-card-rule"></div>
+                <div class="product-card-foot">
+                  <div><span class="cat-from">from</span><span class="product-card-price">$50</span></div>
+                  <div style="width:28px;height:28px;border-radius:50%;background:#FFFBEB;display:flex;align-items:center;justify-content:center;">
+                    <i data-lucide="arrow-right" style="width:12px;height:12px;color:#D97706;stroke-width:2.5;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-card fade-up d5" onclick="openCategory('wedding')" role="button" tabindex="0" aria-label="Wedding and Anniversary Cakes">
+              <img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=400&h=300&fit=crop" alt="Wedding cakes" class="product-card-img" loading="lazy" />
+              <div class="product-card-body">
+                <div class="product-card-name">Wedding</div>
+                <div class="product-card-sub">Timeless elegance for your special day</div>
+                <div class="product-card-rule"></div>
+                <div class="product-card-foot">
+                  <div><span class="cat-from">from</span><span class="product-card-price">$95</span></div>
+                  <div style="width:28px;height:28px;border-radius:50%;background:#ECFDF5;display:flex;align-items:center;justify-content:center;">
+                    <i data-lucide="arrow-right" style="width:12px;height:12px;color:#059669;stroke-width:2.5;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-card fade-up d6" onclick="openCategory('birthday')" role="button" tabindex="0" aria-label="Birthday and Celebration Cakes">
+              <img src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=400&h=300&fit=crop" alt="Birthday cakes" class="product-card-img" loading="lazy" />
+              <div class="product-card-body">
+                <div class="product-card-name">Birthday</div>
+                <div class="product-card-sub">For every age and occasion</div>
+                <div class="product-card-rule"></div>
+                <div class="product-card-foot">
+                  <div><span class="cat-from">from</span><span class="product-card-price">$32</span></div>
+                  <div style="width:28px;height:28px;border-radius:50%;background:#FFF0F3;display:flex;align-items:center;justify-content:center;">
+                    <i data-lucide="arrow-right" style="width:12px;height:12px;color:#E11D48;stroke-width:2.5;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ABOUT US PAGE -->
+    <div id="page-about" class="page" role="main" aria-label="About Us">
+      <div class="top-nav">
+        <div style="font-size:1.1rem;font-weight:800;color:var(--choc);">About Us</div>
+        <div style="width:36px;"></div>
+      </div>
+      <div class="page-scrollable">
+        <div style="padding-top:16px;">
+          <div class="about-hero">
+            <div style="position:relative;z-index:2;">
+              <div style="width:48px;height:48px;background:rgba(255,255,255,.12);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
+                <i data-lucide="cake" style="width:22px;height:22px;color:white;stroke-width:1.8;"></i>
+              </div>
+              <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:white;line-height:1.2;margin-bottom:10px;">
+                Baked with love<br><em style="color:var(--peach);">since 2015</em>
+              </div>
+              <p style="font-size:.82rem;color:rgba(255,255,255,.7);line-height:1.6;">Selam Cake Shop was born from a simple belief — that every celebration deserves something truly special.</p>
+            </div>
+          </div>
+          <div class="about-stat-grid">
+            <div class="about-stat-card">
+              <div style="font-size:1.4rem;font-weight:800;color:var(--choc);">9+</div>
+              <div style="font-size:.65rem;color:var(--muted);font-weight:600;margin-top:4px;">Years</div>
+            </div>
+            <div class="about-stat-card">
+              <div style="font-size:1.4rem;font-weight:800;color:var(--choc);">15k+</div>
+              <div style="font-size:.65rem;color:var(--muted);font-weight:600;margin-top:4px;">Customers</div>
+            </div>
+            <div class="about-stat-card">
+              <div style="font-size:1.4rem;font-weight:800;color:var(--choc);">50+</div>
+              <div style="font-size:.65rem;color:var(--muted);font-weight:600;margin-top:4px;">Designs</div>
+            </div>
+          </div>
+          <img src="https://images.pexels.com/photos/3738088/pexels-photo-3738088.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Our baking team" class="about-team-img" loading="lazy" />
+          <div style="margin-bottom:20px;">
+            <div style="font-size:.8rem;font-weight:700;color:var(--choc);margin:0 20px 14px;display:flex;align-items:center;gap:6px;">
+              <i data-lucide="sparkles" style="width:14px;height:14px;color:var(--choc-mid);stroke-width:2.2;"></i>
+              What We Stand For
+            </div>
+            <div class="about-value-card">
+              <div class="about-icon-box" style="background:#FFF0EB;">
+                <i data-lucide="leaf" style="width:18px;height:18px;color:#A0522D;stroke-width:2;"></i>
+              </div>
+              <div>
+                <div style="font-size:.9rem;font-weight:700;color:var(--choc);margin-bottom:2px;">Natural Ingredients</div>
+                <div style="font-size:.75rem;color:var(--muted);line-height:1.5;">Only the freshest, highest-quality ingredients.</div>
+              </div>
+            </div>
+            <div class="about-value-card">
+              <div class="about-icon-box" style="background:#ECFDF5;">
+                <i data-lucide="pencil-ruler" style="width:18px;height:18px;color:#059669;stroke-width:2;"></i>
+              </div>
+              <div>
+                <div style="font-size:.9rem;font-weight:700;color:var(--choc);margin-bottom:2px;">Handcrafted</div>
+                <div style="font-size:.75rem;color:var(--muted);line-height:1.5;">Meticulous attention to detail and artistry.</div>
+              </div>
+            </div>
+            <div class="about-value-card">
+              <div class="about-icon-box" style="background:#F3F0FF;">
+                <i data-lucide="heart" style="width:18px;height:18px;color:#6B3AED;stroke-width:2;"></i>
+              </div>
+              <div>
+                <div style="font-size:.9rem;font-weight:700;color:var(--choc);margin-bottom:2px;">Made for Moments</div>
+                <div style="font-size:.75rem;color:var(--muted);line-height:1.5;">Every order is a celebration.</div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-bottom:12px;">
+            <div style="font-size:.8rem;font-weight:700;color:var(--choc);margin:0 20px 14px;display:flex;align-items:center;gap:6px;">
+              <i data-lucide="map-pin" style="width:14px;height:14px;color:var(--choc-mid);stroke-width:2.2;"></i>
+              Find Us
+            </div>
+            <div class="about-contact-row">
+              <div class="about-contact-icon" style="background:#FFF0EB;">
+                <i data-lucide="map-pin" style="width:16px;height:16px;color:#A0522D;stroke-width:2;"></i>
+              </div>
+              <div>
+                <div style="font-size:.85rem;font-weight:700;color:var(--choc);">123 Blossom Lane</div>
+                <div style="font-size:.72rem;color:var(--muted);">Addis Ababa, Ethiopia</div>
+              </div>
+            </div>
+            <div class="about-contact-row">
+              <div class="about-contact-icon" style="background:#ECFDF5;">
+                <i data-lucide="clock" style="width:16px;height:16px;color:#059669;stroke-width:2;"></i>
+              </div>
+              <div>
+                <div style="font-size:.85rem;font-weight:700;color:var(--choc);">Mon–Fri 7am–8pm</div>
+                <div style="font-size:.72rem;color:var(--muted);">Sat–Sun 8am–9pm</div>
+              </div>
+            </div>
+            <div class="about-contact-row">
+              <div class="about-contact-icon" style="background:#FFFBEB;">
+                <i data-lucide="phone" style="width:16px;height:16px;color:#D97706;stroke-width:2;"></i>
+              </div>
+              <div>
+                <div style="font-size:.85rem;font-weight:700;color:var(--choc);">+1 (555) 234-5678</div>
+                <div style="font-size:.72rem;color:var(--muted);">Call or WhatsApp</div>
+              </div>
+            </div>
+          </div>
+          <div style="text-align:center;padding:24px 0 8px;color:var(--muted);font-size:.7rem;">
+            Selam Cake Shop · Made with love
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL PAGE -->
+    <div id="page-detail" class="page" role="main" aria-label="Product category">
+      <div class="detail-hero-wrap">
+        <img id="detailHeroBg" src="" alt="" class="detail-hero-img" />
+        <div class="detail-hero-grad"></div>
+        <button class="back-btn" onclick="closeDetail()" aria-label="Back">
+          <i data-lucide="chevron-left" style="width:18px;height:18px;color:var(--choc);stroke-width:2.5;"></i>
+        </button>
+        <div class="detail-hero-text">
+          <span id="detailBadge" style="background:rgba(255,255,255,.2);color:white;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:999px;display:inline-block;margin-bottom:8px;backdrop-filter:blur(8px);"></span>
+          <h2 id="detailTitle" style="font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:white;line-height:1.15;max-width:200px;"></h2>
+          <p id="detailSub" style="font-size:.78rem;color:rgba(255,255,255,.65);margin-top:6px;"></p>
+        </div>
+        <img id="detailHeroFloat" src="" alt="" class="detail-float-img" />
+      </div>
+      <div class="page-scrollable">
+        <div style="padding:44px 20px 16px;">
+          <div style="margin-bottom:16px;">
+            <div class="sec-label">
+              <i data-lucide="layers" style="width:12px;height:12px;color:var(--choc-mid);stroke-width:2.5;"></i>
+              Choose Your Design
+            </div>
+            <h3 id="detailSubtitle" style="font-size:1.15rem;font-weight:800;color:var(--choc);"></h3>
+          </div>
+          <div id="productList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AVAILABLE TODAY PAGE -->
+    <div id="page-available" class="page" role="main" aria-label="Available Today">
+      <div class="detail-hero-wrap" style="background: linear-gradient(145deg, #F8C1CC 0%, #F5B4C1 60%, #F0A8B8 100%); height: 200px;">
+        <div class="detail-hero-grad" style="background: linear-gradient(to bottom, rgba(46,21,3,.03) 0%, rgba(46,21,3,.5) 100%);"></div>
+        <button class="back-btn" onclick="closeAvailable()" aria-label="Back">
+          <i data-lucide="chevron-left" style="width:18px;height:18px;color:var(--choc);stroke-width:2.5;"></i>
+        </button>
+        <div class="detail-hero-text">
+          <span style="background:rgba(255,255,255,.2);color:white;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:999px;display:inline-block;margin-bottom:8px;backdrop-filter:blur(8px);">Fresh from Oven</span>
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:white;line-height:1.15;max-width:220px;">Available Today</h2>
+          <p style="font-size:.78rem;color:rgba(255,255,255,.65);margin-top:6px;">Ready-made cakes & pastries</p>
+        </div>
+      </div>
+      <div class="page-scrollable">
+        <div style="padding:32px 20px 16px;">
+          <div style="margin-bottom:16px;">
+            <div class="sec-label">
+              <i data-lucide="store" style="width:12px;height:12px;color:var(--choc-mid);stroke-width:2.5;"></i>
+              In Store Now
+            </div>
+            <h3 style="font-size:1.15rem;font-weight:800;color:var(--choc);">Grab & Go</h3>
+          </div>
+          <div id="availableGrid" class="card-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         MODERN BOTTOM NAVIGATION
+         ============================================ -->
+    <nav class="bottom-nav" role="navigation" aria-label="Main navigation">
+      <div class="nav-pill-bar">
+        <!-- Sliding active indicator -->
+        <div class="nav-indicator" id="navIndicator"></div>
+
+        <button class="nav-item active" id="nav-home" onclick="goPage('home')" aria-label="Home" aria-current="page">
+          <div class="nav-icon-wrap">
+            <i data-lucide="home" style="width:22px;height:22px;color:rgba(255,255,255,.9);stroke-width:2;"></i>
+          </div>
+          <span class="nav-label">Home</span>
+        </button>
+
+        <div class="nav-center-wrap">
+          <button class="nav-center-btn" onclick="openCart()" aria-label="View cart">
+            <i data-lucide="shopping-bag" style="width:24px;height:24px;color:var(--choc);stroke-width:2;"></i>
+            <span id="navCartBadge" class="nav-pill">0</span>
+          </button>
+          <div id="navTotal" class="nav-total-label"></div>
+        </div>
+
+        <button class="nav-item" id="nav-about" onclick="goPage('about')" aria-label="About Us">
+          <div class="nav-icon-wrap">
+            <i data-lucide="info" style="width:22px;height:22px;color:rgba(255,255,255,.4);stroke-width:2;"></i>
+          </div>
+          <span class="nav-label">About</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- HOME INDICATOR -->
+    <div class="home-indicator"></div>
+
+    <!-- CART SHEET -->
+    <div class="sheet-overlay" id="cartSheet" role="dialog" aria-modal="true" aria-label="Shopping cart" onclick="handleSheetClick(event)">
+      <div class="sheet-panel" onclick="event.stopPropagation()">
+        <div class="sheet-handle-wrap">
+          <div class="sheet-handle"></div>
+        </div>
+        <div class="sheet-head">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+            <h2 style="font-size:1.2rem;font-weight:800;color:var(--choc);">Your Cart</h2>
+            <button onclick="closeCart()" style="width:32px;height:32px;border-radius:50%;border:none;background:var(--blush);cursor:pointer;display:flex;align-items:center;justify-content:center;" aria-label="Close cart">
+              <i data-lucide="x" style="width:16px;height:16px;color:var(--choc-mid);stroke-width:2.5;"></i>
+            </button>
+          </div>
+          <p id="cartItemCount" style="font-size:.78rem;color:var(--muted);margin-bottom:4px;">0 items</p>
+        </div>
+        <div class="sheet-scroll" id="cartItems">
+        </div>
+        <div class="sheet-footer" id="cartFooter">
+          <input id="custName" class="cust-input" placeholder="Your name" autocomplete="name" />
+          <input id="custPhone" class="cust-input" placeholder="Phone (e.g. +2519...)" autocomplete="tel" />
+          <input id="custAddress" class="cust-input" placeholder="Delivery address (optional)" autocomplete="street-address" />
+          <div class="delivery-row">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <i data-lucide="truck" style="width:16px;height:16px;color:var(--choc-mid);stroke-width:2;"></i>
+              <span style="font-size:.85rem;font-weight:600;color:var(--choc);">Delivery</span>
+            </div>
+            <span style="font-size:.85rem;font-weight:700;color:var(--choc);">$5.00</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <span style="font-size:.9rem;font-weight:600;color:var(--muted);">Total</span>
+            <span id="cartTotal" style="font-size:1.3rem;font-weight:800;color:var(--choc);">$0.00</span>
+          </div>
+          <button class="checkout-btn" onclick="checkout()">
+            <i data-lucide="credit-card" style="width:18px;height:18px;stroke-width:2;"></i>
+            Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEARCH SHEET -->
+    <div class="sheet-overlay" id="searchSheet" role="dialog" aria-modal="true" aria-label="Search products" onclick="handleSheetClick(event)">
+      <div class="sheet-panel" onclick="event.stopPropagation()">
+        <div class="sheet-handle-wrap">
+          <div class="sheet-handle"></div>
+        </div>
+        <div class="sheet-head">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+            <h2 style="font-size:1.2rem;font-weight:800;color:var(--choc);">Search</h2>
+            <button onclick="closeSearchSheet()" style="width:32px;height:32px;border-radius:50%;border:none;background:var(--blush);cursor:pointer;display:flex;align-items:center;justify-content:center;" aria-label="Close search">
+              <i data-lucide="x" style="width:16px;height:16px;color:var(--choc-mid);stroke-width:2.5;"></i>
+            </button>
+          </div>
+          <div class="search-input-wrap">
+            <i data-lucide="search" style="width:18px;height:18px;color:var(--muted);stroke-width:2.5;flex-shrink:0;"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search cakes, flavors..." oninput="handleSearch(this.value)" />
+          </div>
+          <div class="search-chip-row" id="searchChips">
+            <span class="chip" onclick="quickSearch('chocolate')">
+              <i data-lucide="cookie" style="width:12px;height:12px;stroke-width:2;"></i>Chocolate
+            </span>
+            <span class="chip" onclick="quickSearch('vanilla')">
+              <i data-lucide="flower-2" style="width:12px;height:12px;stroke-width:2;"></i>Vanilla
+            </span>
+            <span class="chip" onclick="quickSearch('vegan')">
+              <i data-lucide="leaf" style="width:12px;height:12px;stroke-width:2;"></i>Vegan
+            </span>
+            <span class="chip" onclick="quickSearch('wedding')">
+              <i data-lucide="heart" style="width:12px;height:12px;stroke-width:2;"></i>Wedding
+            </span>
+          </div>
+        </div>
+        <div class="sheet-scroll" id="searchResults">
+          <div style="text-align:center;padding:40px 0;color:var(--muted);font-size:.85rem;">
+            <div class="empty-icon-wrap">
+              <i data-lucide="search" style="width:28px;height:28px;color:var(--choc-mid);stroke-width:2;"></i>
+            </div>
+            Type to search our menu
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  </div>
+
+  <script>
+    // ================= DATA =================
+    // Products are loaded from the database (shop_items table). Admins manage all items
+    // from /admin — what they add/edit/delete/toggle there is exactly what shows here.
+    let products = {
+      fasting: [], kerestena: [], yeshemgelena: [],
+      graduation: [], wedding: [], birthday: [],
+    };
+
+    let availableToday = [];
+
+    const categoryMeta = {
+      fasting: { title: 'Fasting Cakes', sub: 'Plant-based & vegan-friendly', badge: 'Vegan', img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&h=600&fit=crop' },
+      kerestena: { title: 'Kerestena', sub: 'Holy communion & christening', badge: 'Holy', img: 'https://images.unsplash.com/photo-1535141192574-5d4897c12636?w=800&h=600&fit=crop' },
+      yeshemgelena: { title: 'Yeshemgelena', sub: 'Baby showers & gender reveals', badge: 'Baby', img: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&h=600&fit=crop' },
+      graduation: { title: 'Graduation', sub: 'Celebrate achievements', badge: 'Grad', img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=600&fit=crop' },
+      wedding: { title: 'Wedding', sub: 'Timeless elegance', badge: 'Love', img: 'https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=800&h=600&fit=crop' },
+      birthday: { title: 'Birthday', sub: 'For every age', badge: 'Party', img: 'https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=800&h=600&fit=crop' },
+    };
+
+    // ================= STATE =================
+    let cart = [];
+    let currentPage = 'home';
+    // Expose mutable state to the module script (Supabase loader + checkout)
+    window.products = products;
+    window.availableToday = availableToday;
+    Object.defineProperty(window, 'cart', { get: () => cart, set: v => { cart = v; } });
+
+    // ================= INIT =================
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      updateNavIndicator();
+      setTimeout(() => {
+        const splash = document.getElementById('splash-overlay');
+        splash.classList.add('exiting');
+        setTimeout(() => splash.classList.add('hidden'), 700);
+      }, 2500);
+      renderCart();
+    });
+
+    // ================= NAVIGATION =================
+    function goPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + page).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => {
+        n.classList.remove('active');
+        const icon = n.querySelector('[data-lucide]');
+        if (icon) icon.style.color = 'rgba(255,255,255,.4)';
+      });
+      const activeNav = document.getElementById('nav-' + page);
+      activeNav.classList.add('active');
+      const activeIcon = activeNav.querySelector('[data-lucide]');
+      if (activeIcon) activeIcon.style.color = 'rgba(255,255,255,.9)';
+      currentPage = page;
+      updateNavIndicator();
+      lucide.createIcons();
+    }
+
+    function updateNavIndicator() {
+      const indicator = document.getElementById('navIndicator');
+      const activeItem = document.querySelector('.nav-item.active');
+      if (!indicator || !activeItem) return;
+      const bar = document.querySelector('.nav-pill-bar');
+      const barRect = bar.getBoundingClientRect();
+      const itemRect = activeItem.getBoundingClientRect();
+      indicator.style.left = (itemRect.left - barRect.left) + 'px';
+      indicator.style.width = itemRect.width + 'px';
+    }
+
+    window.addEventListener('resize', updateNavIndicator);
+
+    function openCategory(cat) {
+      window.currentCat = cat;
+      const meta = categoryMeta[cat];
+      document.getElementById('detailHeroBg').src = meta.img;
+      document.getElementById('detailHeroFloat').src = meta.img;
+      document.getElementById('detailTitle').textContent = meta.title;
+      document.getElementById('detailSub').textContent = meta.sub;
+      document.getElementById('detailBadge').textContent = meta.badge;
+      document.getElementById('detailSubtitle').textContent = meta.title + ' Designs';
+
+      const list = document.getElementById('productList');
+      list.innerHTML = products[cat].map((p, i) => `
+        <div class="product-list-item fade-up d${i+1}" style="animation-delay:${i*0.06}s">
+          <img src="${p.img}" alt="${p.name}" class="product-list-img" loading="lazy" />
+          <div class="product-list-info">
+            <div class="product-list-name">${p.name}</div>
+            <div class="product-list-sub">${p.sub}</div>
+            <div class="product-list-foot">
+              <span class="product-list-price">$${p.price}</span>
+              <div class="stepper">
+                <button class="step-btn minus" onclick="updateCart('${p.id}', -1, '${cat}')" aria-label="Decrease quantity">−</button>
+                <span class="step-count" id="qty-${p.id}">${getQty(p.id)}</span>
+                <button class="step-btn plus" onclick="updateCart('${p.id}', 1, '${cat}')" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('page-detail').classList.add('active');
+      lucide.createIcons();
+    }
+
+    function closeDetail() {
+      document.getElementById('page-detail').classList.remove('active');
+      if (currentPage === 'home') document.getElementById('page-home').classList.add('active');
+      else document.getElementById('page-about').classList.add('active');
+    }
+
+    function openAvailableToday() {
+      const grid = document.getElementById('availableGrid');
+      grid.innerHTML = availableToday.map((p, i) => `
+        <div class="product-card fade-up d${i+1}" style="animation-delay:${i*0.06}s">
+          <img src="${p.img}" alt="${p.name}" class="product-card-img" loading="lazy" />
+          <div class="product-card-body">
+            <div class="product-card-name">${p.name}</div>
+            <div class="product-card-sub">${p.sub}</div>
+            <div class="product-card-rule"></div>
+            <div class="product-card-foot">
+              <div><span class="cat-from">each</span><span class="product-card-price">$${p.price}</span></div>
+              <div class="stepper">
+                <button class="step-btn minus" onclick="updateCart('${p.id}', -1, 'available')" aria-label="Decrease">−</button>
+                <span class="step-count" id="qty-${p.id}">${getQty(p.id)}</span>
+                <button class="step-btn plus" onclick="updateCart('${p.id}', 1, 'available')" aria-label="Increase">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      document.getElementById('page-available').classList.add('active');
+      lucide.createIcons();
+    }
+
+    function closeAvailable() {
+      document.getElementById('page-available').classList.remove('active');
+      document.getElementById('page-home').classList.add('active');
+    }
+
+    // ================= CART =================
+    function getQty(id) {
+      const item = cart.find(c => c.id === id);
+      return item ? item.qty : 0;
+    }
+
+    function updateCart(id, delta, source) {
+      const allProducts = [...Object.values(products).flat(), ...availableToday];
+      const product = allProducts.find(p => p.id === id);
+      if (!product) return;
+
+      if (delta > 0 && product.soldOut) {
+        showToast(`${product.name} is sold out`);
+        return;
+      }
+
+      const existing = cart.find(c => c.id === id);
+      if (existing) {
+        existing.qty += delta;
+        if (existing.qty <= 0) cart = cart.filter(c => c.id !== id);
+      } else if (delta > 0) {
+        cart.push({ id, qty: 1, name: product.name, price: product.price, img: product.img });
+      }
+
+      const qtyEl = document.getElementById('qty-' + id);
+      if (qtyEl) qtyEl.textContent = getQty(id);
+
+      renderCart();
+      showToast(delta > 0 ? `Added ${product.name} to cart` : `Removed ${product.name}`);
+    }
+
+
+    function removeFromCart(id) {
+      cart = cart.filter(c => c.id !== id);
+      renderCart();
+      const qtyEl = document.getElementById('qty-' + id);
+      if (qtyEl) qtyEl.textContent = '0';
+    }
+
+    function renderCart() {
+      const totalItems = cart.reduce((sum, c) => sum + c.qty, 0);
+      const totalPrice = cart.reduce((sum, c) => sum + c.qty * c.price, 0) + (cart.length > 0 ? 5 : 0);
+
+      const heroBadge = document.getElementById('heroCartBadge');
+      const navBadge = document.getElementById('navCartBadge');
+      const navTotal = document.getElementById('navTotal');
+
+      heroBadge.textContent = totalItems;
+      navBadge.textContent = totalItems;
+      heroBadge.classList.toggle('show', totalItems > 0);
+      navBadge.classList.toggle('show', totalItems > 0);
+
+      if (totalItems > 0) {
+        navTotal.textContent = `$${totalPrice.toFixed(2)}`;
+        navTotal.classList.add('show');
+      } else {
+        navTotal.classList.remove('show');
+      }
+
+      document.getElementById('cartItemCount').textContent = `${totalItems} item${totalItems !== 1 ? 's' : ''}`;
+      document.getElementById('cartTotal').textContent = `$${totalPrice.toFixed(2)}`;
+
+      const cartItems = document.getElementById('cartItems');
+      if (cart.length === 0) {
+        cartItems.innerHTML = `
+          <div style="text-align:center;padding:40px 0;color:var(--muted);font-size:.85rem;">
+            <div class="empty-icon-wrap">
+              <i data-lucide="shopping-bag" style="width:28px;height:28px;color:var(--choc-mid);stroke-width:2;"></i>
+            </div>
+            Your cart is empty
+          </div>
+        `;
+        document.getElementById('cartFooter').style.display = 'none';
+      } else {
+        document.getElementById('cartFooter').style.display = 'block';
+        cartItems.innerHTML = cart.map(item => `
+          <div class="cart-item">
+            <img src="${item.img}" alt="${item.name}" class="cart-item-img" />
+            <div class="cart-item-info">
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-meta">Qty: ${item.qty}</div>
+              <div class="cart-item-price">$${(item.price * item.qty).toFixed(2)}</div>
+            </div>
+            <div class="stepper" style="margin-right:8px;">
+              <button class="step-btn minus" onclick="updateCart('${item.id}', -1)" aria-label="Decrease">−</button>
+              <span class="step-count">${item.qty}</span>
+              <button class="step-btn plus" onclick="updateCart('${item.id}', 1)" aria-label="Increase">+</button>
+            </div>
+            <button class="cart-item-delete" onclick="removeFromCart('${item.id}')" aria-label="Remove item">
+              <i data-lucide="trash-2" style="width:14px;height:14px;color:var(--choc-mid);stroke-width:2;"></i>
+            </button>
+          </div>
+        `).join('');
+      }
+      lucide.createIcons();
+    }
+
+    function openCart() {
+      document.getElementById('cartSheet').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCart() {
+      document.getElementById('cartSheet').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    function checkout() {
+      if (cart.length === 0) return;
+      showToast('Order placed successfully!');
+      cart = [];
+      renderCart();
+      closeCart();
+    }
+
+    // ================= SEARCH =================
+    function openSearchSheet() {
+      document.getElementById('searchSheet').classList.add('show');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('searchInput').focus(), 300);
+    }
+
+    function closeSearchSheet() {
+      document.getElementById('searchSheet').classList.remove('show');
+      document.body.style.overflow = '';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchResults').innerHTML = `
+        <div style="text-align:center;padding:40px 0;color:var(--muted);font-size:.85rem;">
+          <div class="empty-icon-wrap">
+            <i data-lucide="search" style="width:28px;height:28px;color:var(--choc-mid);stroke-width:2;"></i>
+          </div>
+          Type to search our menu
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    function quickSearch(term) {
+      document.getElementById('searchInput').value = term;
+      handleSearch(term);
+    }
+
+    function handleSearch(query) {
+      const resultsEl = document.getElementById('searchResults');
+      if (!query.trim()) {
+        resultsEl.innerHTML = `
+          <div style="text-align:center;padding:40px 0;color:var(--muted);font-size:.85rem;">
+            <div class="empty-icon-wrap">
+              <i data-lucide="search" style="width:28px;height:28px;color:var(--choc-mid);stroke-width:2;"></i>
+            </div>
+            Type to search our menu
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      const all = [...Object.values(products).flat(), ...availableToday];
+      const filtered = all.filter(p => 
+        p.name.toLowerCase().includes(query.toLowerCase()) || 
+        p.sub.toLowerCase().includes(query.toLowerCase())
+      );
+
+      if (filtered.length === 0) {
+        resultsEl.innerHTML = `
+          <div style="text-align:center;padding:40px 0;color:var(--muted);font-size:.85rem;">
+            <div class="empty-icon-wrap">
+              <i data-lucide="frown" style="width:28px;height:28px;color:var(--choc-mid);stroke-width:2;"></i>
+            </div>
+            No results found
+          </div>
+        `;
+      } else {
+        resultsEl.innerHTML = filtered.map(p => `
+          <div class="search-result-item" onclick="addFromSearch('${p.id}')">
+            <img src="${p.img}" alt="${p.name}" class="search-result-img" />
+            <div class="search-result-info">
+              <div class="search-result-name">${p.name} ${getQty(p.id) > 0 ? '<span class="qty-badge">'+getQty(p.id)+' in cart</span>' : ''}</div>
+              <div class="search-result-price">$${p.price}</div>
+            </div>
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--blush);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i data-lucide="plus" style="width:14px;height:14px;color:var(--choc-mid);stroke-width:2.5;"></i>
+            </div>
+          </div>
+        `).join('');
+      }
+      lucide.createIcons();
+    }
+
+    function addFromSearch(id) {
+      const all = [...Object.values(products).flat(), ...availableToday];
+      const product = all.find(p => p.id === id);
+      if (product) {
+        updateCart(id, 1);
+        handleSearch(document.getElementById('searchInput').value);
+      }
+    }
+
+    // ================= UTILS =================
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function handleSheetClick(e) {
+      if (e.target === e.currentTarget) {
+        if (document.getElementById('cartSheet').classList.contains('show')) closeCart();
+        if (document.getElementById('searchSheet').classList.contains('show')) closeSearchSheet();
+      }
+    }
+
+    window.addEventListener('popstate', () => {
+      if (document.getElementById('cartSheet').classList.contains('show')) { closeCart(); history.pushState(null, ''); }
+      else if (document.getElementById('searchSheet').classList.contains('show')) { closeSearchSheet(); history.pushState(null, ''); }
+      else if (document.getElementById('page-detail').classList.contains('active')) { closeDetail(); history.pushState(null, ''); }
+      else if (document.getElementById('page-available').classList.contains('active')) { closeAvailable(); history.pushState(null, ''); }
+    });
+    history.pushState(null, '');
+  </script>
+
+  <!-- BACKEND INTEGRATION: load items from Supabase + place real orders via /api/public/orders + Telegram -->
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
+    const SUPABASE_URL = "https://fjooffwprwtjbnlkeyyj.supabase.co";
+    const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqb29mZndwcnd0amJubGtleXlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwNTMyOTQsImV4cCI6MjA5NjYyOTI5NH0.0R1jGJfQiYfjJmefdRS2vSbeHVP2f556LHyrdNYm2qc";
+    const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const CAT_KEY = {
+      "Fasting": "fasting", "Kerestena": "kerestena", "Yeshemgelena": "yeshemgelena",
+      "Graduation": "graduation", "Wedding": "wedding", "Birthday": "birthday",
+    };
+
+    async function loadItems() {
+      try {
+        const [{ data: items, error: e1 }, { data: avail, error: e2 }] = await Promise.all([
+          sb.from("shop_items").select("id,name,sub,cat,price,img,available,sort_order").order("sort_order",{ascending:true}),
+          sb.from("shop_item_availability").select("item_id,available"),
+        ]);
+        if (e1) { console.error(e1); return; }
+        const outIds = new Set((avail ?? []).filter(r => r.available === false).map(r => r.item_id));
+        const grouped = {};
+        const todays = [];
+        for (const it of (items ?? [])) {
+          const row = {
+            id: it.id, name: it.name, sub: it.sub || "",
+            price: Number(it.price), img: it.img,
+            soldOut: !it.available || outIds.has(it.id),
+          };
+          if (it.cat === "Available Today") { todays.push(row); continue; }
+          const key = CAT_KEY[it.cat];
+          if (!key) continue;
+          (grouped[key] ||= []).push(row);
+        }
+        // Only overwrite categories that came back with items, preserving fallback for empties.
+        for (const k of Object.keys(grouped)) window.products[k] = grouped[k];
+        if (todays.length) { window.availableToday.length = 0; window.availableToday.push(...todays); }
+        // Re-render any currently open list view
+        // Re-render whichever list/detail view is currently open so toggles reflect immediately.
+        if (document.getElementById("page-available")?.classList.contains("active")) window.openAvailableToday?.();
+        if (document.getElementById("page-detail")?.classList.contains("active") && window.currentCat) window.openCategory?.(window.currentCat);
+      } catch (err) { console.error("Shop items load failed", err); }
+    }
+
+    // Patch renderers to add a sold-out class on the card/list item
+    const origUpdate = window.updateCart;
+    function showToast(msg){ const t=document.getElementById('toast'); if(!t) return; t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+
+    // Real checkout: save to DB, then open Telegram chat with @selamina22 pre-filled.
+    const TELEGRAM_USERNAME = "selamina22";
+    window.checkout = async function checkout() {
+      if (!window.cart || window.cart.length === 0) return;
+      // Block checkout if any cart item is sold out
+      const allProducts = [...Object.values(window.products||{}).flat(), ...(window.availableToday||[])];
+      const soldMap = new Map(allProducts.map(p => [p.id, p.soldOut]));
+      const blocked = window.cart.filter(c => soldMap.get(c.id));
+      if (blocked.length) {
+        showToast(`${blocked[0].name} is sold out — removed from cart`);
+        window.cart = window.cart.filter(c => !soldMap.get(c.id));
+        window.renderCart?.();
+        return;
+      }
+      const name = (document.getElementById("custName")?.value || "").trim();
+      const phone = (document.getElementById("custPhone")?.value || "").trim();
+      const address = (document.getElementById("custAddress")?.value || "").trim();
+      if (!name || !phone) { showToast("Please enter name and phone"); return; }
+
+      const items = window.cart.map(c => ({
+        name: String(c.name), qty: Number(c.qty), price: Number(c.price),
+        img: c.img && /^https:\/\//.test(c.img) ? c.img : null,
+      }));
+      const total = items.reduce((s,i)=>s+i.price*i.qty,0);
+
+      // Build the Telegram message
+      const lines = [
+        "🌸 Selam Cake & Arts — New Order",
+        "",
+        `👤 Name: ${name}`,
+        `📞 Phone: ${phone}`,
+      ];
+      if (address) lines.push(`📍 Address: ${address}`);
+      lines.push("", "🧁 Items:");
+      items.forEach(it => lines.push(`• ${it.name} × ${it.qty} — ETB ${it.price * it.qty}`));
+      lines.push("", `💰 Total: ETB ${total}`);
+      const text = lines.join("\n");
+
+      // Save to database in the background (best-effort, don't block the user)
+      fetch("/api/public/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ customer_name:name, customer_phone:phone, customer_address:address, items, total }),
+      }).catch(err => console.error("Order save failed", err));
+
+      showToast("Opening Telegram… tap Send to confirm your order");
+
+      // Open Telegram chat with the message pre-filled.
+      // tg:// deep-links to the installed app; t.me share fallback opens browser/web.
+      const shareUrl = `https://t.me/share/url?url=${encodeURIComponent("https://t.me/" + TELEGRAM_USERNAME)}&text=${encodeURIComponent(text)}`;
+      window.open(shareUrl, "_blank");
+
+      // Clear cart locally
+      window.cart = [];
+      window.renderCart?.();
+      window.closeCart?.();
+      const n = document.getElementById("custName"); if (n) n.value = "";
+      const p = document.getElementById("custPhone"); if (p) p.value = "";
+      const a = document.getElementById("custAddress"); if (a) a.value = "";
+    };
+
+    // Mark sold-out cards/list-items after every render and disable add buttons
+    function tagSoldOut() {
+      const all = [...Object.values(window.products||{}).flat(), ...(window.availableToday||[])];
+      const map = new Map(all.map(p => [p.id, p.soldOut]));
+      document.querySelectorAll(".product-card, .product-list-item").forEach(el => {
+        const minus = el.querySelector(".step-btn.minus");
+        const m = minus?.getAttribute("onclick")?.match(/'([^']+)'/);
+        const id = m?.[1];
+        if (!id) return;
+        if (map.get(id)) {
+          el.classList.add("sold-out");
+          el.querySelectorAll(".step-btn.plus").forEach(b => {
+            b.setAttribute("disabled", "true");
+            b.style.opacity = ".4";
+            b.style.cursor = "not-allowed";
+            b.style.pointerEvents = "none";
+          });
+        } else {
+          el.classList.remove("sold-out");
+          el.querySelectorAll(".step-btn.plus").forEach(b => {
+            b.removeAttribute("disabled");
+            b.style.opacity = "";
+            b.style.cursor = "";
+            b.style.pointerEvents = "";
+          });
+        }
+      });
+      // Prune any sold-out items already in the cart
+      if (window.cart && window.cart.length) {
+        const before = window.cart.length;
+        window.cart = window.cart.filter(c => !map.get(c.id));
+        if (window.cart.length !== before) window.renderCart?.();
+      }
+    }
+
+    const obs = new MutationObserver(() => tagSoldOut());
+    document.addEventListener("DOMContentLoaded", () => {
+      obs.observe(document.body, { childList: true, subtree: true });
+      loadItems();
+    });
+
+    // Live updates when admin toggles availability or edits items
+    sb.channel("shop_live")
+      .on("postgres_changes", { event: "*", schema: "public", table: "shop_items" }, loadItems)
+      .on("postgres_changes", { event: "*", schema: "public", table: "shop_item_availability" }, loadItems)
+      .subscribe();
+  </script>
+</body>
+</html>
