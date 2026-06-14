@@ -1,12 +1,14 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState, useCallback, useRef } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import {
   Cake, LayoutGrid, ShoppingBag, LogOut, Store,
   Boxes, CheckCircle2, XCircle, Tag, Plus, Pencil, Trash2, Upload, X,
-  DollarSign, Building2, BarChart3,
+  DollarSign, Building2, BarChart3, FileUp, TrendingUp, AlertCircle,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { CostsSection, PremisesSection, SalesSection } from "@/components/sweet-bloom/AdminFinance";
+import { listCosts, listPremises, getSalesAnalytics } from "@/lib/admin-finance.functions";
 import "@/components/sweet-bloom/menu-admin.css";
 
 export const Route = createFileRoute("/admin/")({
@@ -55,6 +57,47 @@ function AdminDashboard() {
   const [filterCat, setFilterCat] = useState<string>("All");
   const [filterAvail, setFilterAvail] = useState<"all" | "in" | "out">("all");
   const [editing, setEditing] = useState<ShopItem | null>(null);
+
+  // KPI summary state (last 30 days)
+  const [kpi, setKpi] = useState<{
+    revenue: number; units: number; orderCount: number;
+    costIngredients: number; costPackaging: number; costMisc: number; costTotal: number;
+    unpaidPremises: number;
+  } | null>(null);
+  const fetchCosts = useServerFn(listCosts);
+  const fetchPremises = useServerFn(listPremises);
+  const fetchAnalytics = useServerFn(getSalesAnalytics);
+
+  const loadKpi = useCallback(async () => {
+    try {
+      const fromISO = new Date(Date.now() - 30 * 86400_000).toISOString();
+      const toISO = new Date().toISOString();
+      const fromDate = fromISO.slice(0, 10);
+      const toDate = toISO.slice(0, 10);
+      const [sales, costsRes, premRes] = await Promise.all([
+        fetchAnalytics({ data: { granularity: "day", from: fromISO, to: toISO } }),
+        fetchCosts({ data: { from: fromDate, to: toDate } }),
+        fetchPremises({ data: {} }),
+      ]);
+      const costs = (costsRes.costs ?? []) as { category: string; cost_amount: number }[];
+      const premises = (premRes.premises ?? []) as { status: string; amount: number }[];
+      const byCat = costs.reduce((a: Record<string, number>, c) => {
+        a[c.category] = (a[c.category] || 0) + Number(c.cost_amount); return a;
+      }, {});
+      setKpi({
+        revenue: Number(sales.totals?.revenue) || 0,
+        units: Number(sales.totals?.units_sold) || 0,
+        orderCount: Number(sales.totals?.order_count) || 0,
+        costIngredients: byCat.ingredients || 0,
+        costPackaging: byCat.packaging || 0,
+        costMisc: byCat.miscellaneous || 0,
+        costTotal: costs.reduce((s, c) => s + Number(c.cost_amount), 0),
+        unpaidPremises: premises.filter(p => p.status !== "paid").reduce((s, p) => s + Number(p.amount), 0),
+      });
+    } catch (e: any) {
+      console.error("KPI load failed", e);
+    }
+  }, [fetchAnalytics, fetchCosts, fetchPremises]);
 
   const loadOrders = useCallback(async () => {
     const { data, error } = await supabase
@@ -106,13 +149,13 @@ function AdminDashboard() {
       const admin = !!roles?.some((r: any) => r.role === "admin");
       setIsAdmin(admin);
       setReady(true);
-      if (admin) { loadOrders(); loadItems(); }
+      if (admin) { loadOrders(); loadItems(); loadKpi(); }
     })();
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
       if (!session) nav({ to: "/admin/login" });
     });
     return () => sub.subscription.unsubscribe();
-  }, [nav, loadOrders, loadItems]);
+  }, [nav, loadOrders, loadItems, loadKpi]);
 
   useEffect(() => {
     if (!isAdmin) return;
@@ -206,6 +249,9 @@ function AdminDashboard() {
         </nav>
 
         <div className="ma-sidebar-foot">
+          <Link to="/admin/import" className="ma-nav-item">
+            <FileUp size={19} /> Bulk Import
+          </Link>
           <Link to="/" className="ma-nav-item">
             <Store size={19} /> View Shop
           </Link>
@@ -219,7 +265,45 @@ function AdminDashboard() {
         {section === "overview" && (
           <>
             <h1 className="ma-page-title">Overview</h1>
-            <p className="ma-page-sub">A quick snapshot of your shop today.</p>
+            <p className="ma-page-sub">A quick snapshot of your shop today. Financial KPIs cover the last 30 days.</p>
+
+            {/* Financial KPI cards */}
+            <div className="ma-stats">
+              <div className="ma-stat">
+                <span className="ma-stat-icon green"><TrendingUp size={22} /></span>
+                <span className="ma-stat-val">{kpi ? fmtBirr(kpi.revenue) : "—"}</span>
+                <span className="ma-stat-label">Revenue (30d)</span>
+              </div>
+              <div className="ma-stat">
+                <span className="ma-stat-icon"><BarChart3 size={22} /></span>
+                <span className="ma-stat-val">{kpi ? kpi.units : "—"}</span>
+                <span className="ma-stat-label">Units Sold (30d)</span>
+              </div>
+              <div className="ma-stat">
+                <span className="ma-stat-icon"><DollarSign size={22} /></span>
+                <span className="ma-stat-val">{kpi ? fmtBirr(kpi.costTotal) : "—"}</span>
+                <span className="ma-stat-label">Total Costs (30d)</span>
+              </div>
+              <div className="ma-stat">
+                <span className="ma-stat-val">{kpi ? fmtBirr(kpi.costIngredients) : "—"}</span>
+                <span className="ma-stat-label">· Ingredients</span>
+              </div>
+              <div className="ma-stat">
+                <span className="ma-stat-val">{kpi ? fmtBirr(kpi.costPackaging) : "—"}</span>
+                <span className="ma-stat-label">· Packaging</span>
+              </div>
+              <div className="ma-stat">
+                <span className="ma-stat-val">{kpi ? fmtBirr(kpi.costMisc) : "—"}</span>
+                <span className="ma-stat-label">· Miscellaneous</span>
+              </div>
+              <div className="ma-stat">
+                <span className="ma-stat-icon red"><AlertCircle size={22} /></span>
+                <span className="ma-stat-val">{kpi ? fmtBirr(kpi.unpaidPremises) : "—"}</span>
+                <span className="ma-stat-label">Unpaid Premises</span>
+              </div>
+            </div>
+
+            {/* Inventory & order overview */}
             <div className="ma-stats">
               <div className="ma-stat">
                 <span className="ma-stat-icon"><Boxes size={22} /></span>

@@ -1,27 +1,28 @@
     :root {
-      --white: #FFFFFF;
-      --pink-light: #F9DDD8;
-      --pink-mid: #F8D0C8;
-      --pink-deep: #F3BABA;
-      --cyan-light: #D8E0D2;
-      --cyan-mid: #A7B59E;
-      --cyan-deep: #799567;
-      --warm-nude: #FBEFEA;
-      --warm-nude2: #F8E6E1;
-      --text: #35522B;
-      --text-soft: #5B744B;
-      --text-muted: #A7B59E;
-      --line: rgba(243, 186, 186, .18);
-      --line2: rgba(121, 149, 103, .25);
-      --grad-hero: linear-gradient(135deg, #FBEFEA 0%, #F9DDD8 50%, #D8E0D2 100%);
-      --grad-card: linear-gradient(145deg, #FFFFFF, #FBEFEA);
-      --grad-accent: linear-gradient(135deg, #F3BABA, #F8D0C8);
-      --grad-cyan: linear-gradient(135deg, #799567, #A7B59E);
-      --shadow-xs: 0 2px 8px rgba(243, 186, 186, .12);
-      --shadow-sm: 0 4px 20px rgba(243, 186, 186, .18);
-      --shadow-md: 0 12px 40px rgba(243, 186, 186, .22);
-      --shadow-lg: 0 24px 64px rgba(243, 186, 186, .28);
-      --shadow-cyan: 0 8px 28px rgba(121, 149, 103, .28);
+     --white: #FFFFFF;
+     /* Aero Blue palette */
+     --pink-light: #E8C0D3;      /* light pink */
+     --pink-mid:  #E0AEC6;
+     --pink-deep: #D488AC;       /* complementary pink */
+     --cyan-light: #C0E8D5;      /* light aero blue */
+     --cyan-mid:  #A4DCC2;
+     --cyan-deep: #88D4B0;       /* aero blue primary */
+     --warm-nude: #F8FCFA;       /* near-white mint */
+     --warm-nude2: #FCF8FA;      /* near-white pink */
+     --text: #2a3d35;
+     --text-soft: #4a5d54;
+     --text-muted: #7a8a82;
+     --line: rgba(212, 136, 172, .18);
+     --line2: rgba(136, 212, 176, .25);
+     --grad-hero: linear-gradient(135deg, #F8FCFA 0%, #C0E8D5 50%, #E8C0D3 100%);
+     --grad-card: linear-gradient(145deg, #FFFFFF, #F8FCFA);
+     --grad-accent: linear-gradient(135deg, #D488AC, #E8C0D3);
+     --grad-cyan: linear-gradient(135deg, #88D4B0, #C0E8D5);
+     --shadow-xs: 0 2px 8px rgba(136, 212, 176, .14);
+     --shadow-sm: 0 4px 20px rgba(136, 212, 176, .20);
+     --shadow-md: 0 12px 40px rgba(136, 212, 176, .24);
+     --shadow-lg: 0 24px 64px rgba(136, 212, 176, .30);
+     --shadow-cyan: 0 8px 28px rgba(136, 212, 176, .32);
       --r-xs: 10px;
       --r-sm: 16px;
       --r-md: 22px;

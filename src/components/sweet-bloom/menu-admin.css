@@ -2,15 +2,18 @@
    Menu Management — premium minimalist admin dashboard
    ============================================================ */
 :root {
-  --ma-bg: #f7f1e8;            /* soft warm cream main background */
-  --ma-sidebar: #fdf9f2;       /* lighter off-white cream sidebar */
-  --ma-card: #ffffff;          /* white content card */
-  --ma-brown: #4a2c1d;         /* rich chocolate brown */
-  --ma-brown-soft: #6b4630;
-  --ma-green: #2f6b3c;         /* dark forest green accent */
-  --ma-muted: #9a8b7c;
-  --ma-line: #efe6d8;
-  --ma-header-bg: #f6efe4;
+  /* Aero Blue complementary palette */
+  --ma-bg: #F8FCFA;            /* soft mint/white background */
+  --ma-sidebar: #C0E8D5;       /* light aero blue sidebar */
+  --ma-card: #FCF8FA;          /* near-white card */
+  --ma-brown: #2a3d35;         /* deep readable text */
+  --ma-brown-soft: #4a5d54;
+  --ma-green: #88D4B0;         /* primary aero blue */
+  --ma-accent: #D488AC;        /* complementary pink */
+  --ma-accent-soft: #E8C0D3;
+  --ma-muted: #7a8a82;
+  --ma-line: #d8ece1;
+  --ma-header-bg: #E8F4ED;
 }
 
 .ma-shell {
