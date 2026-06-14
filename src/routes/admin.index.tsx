@@ -1,12 +1,14 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState, useCallback, useRef } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import {
   Cake, LayoutGrid, ShoppingBag, LogOut, Store,
   Boxes, CheckCircle2, XCircle, Tag, Plus, Pencil, Trash2, Upload, X,
-  DollarSign, Building2, BarChart3,
+  DollarSign, Building2, BarChart3, FileUp, TrendingUp, AlertCircle,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { CostsSection, PremisesSection, SalesSection } from "@/components/sweet-bloom/AdminFinance";
+import { listCosts, listPremises, getSalesAnalytics } from "@/lib/admin-finance.functions";
 import "@/components/sweet-bloom/menu-admin.css";
 
 export const Route = createFileRoute("/admin/")({

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminImportRouteImport } from './routes/admin.import'
 import { Route as ApiPublicOrdersRouteImport } from './routes/api/public/orders'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminImportRoute = AdminImportRouteImport.update({
+  id: '/admin/import',
+  path: '/admin/import',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicOrdersRoute = ApiPublicOrdersRouteImport.update({
   id: '/api/public/orders',
   path: '/api/public/orders',
@@ -38,12 +44,14 @@ const ApiPublicOrdersRoute = ApiPublicOrdersRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/import': typeof AdminImportRoute
   '/admin/': typeof AdminIndexRoute
   '/api/public/orders': typeof ApiPublicOrdersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/import': typeof AdminImportRoute
   '/admin': typeof AdminIndexRoute
   '/api/public/orders': typeof ApiPublicOrdersRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/import': typeof AdminImportRoute
   '/admin/': typeof AdminIndexRoute
   '/api/public/orders': typeof ApiPublicOrdersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin/login' | '/admin/' | '/api/public/orders'
+  fullPaths: '/' | '/admin/login' | '/admin/import' | '/admin/' | '/api/public/orders'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin/login' | '/admin' | '/api/public/orders'
-  id: '__root__' | '/' | '/admin/login' | '/admin/' | '/api/public/orders'
+  to: '/' | '/admin/login' | '/admin/import' | '/admin' | '/api/public/orders'
+  id: '__root__' | '/' | '/admin/login' | '/admin/import' | '/admin/' | '/api/public/orders'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminImportRoute: typeof AdminImportRoute
   AdminIndexRoute: typeof AdminIndexRoute
   ApiPublicOrdersRoute: typeof ApiPublicOrdersRoute
 }
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/import': {
+      id: '/admin/import'
+      path: '/admin/import'
+      fullPath: '/admin/import'
+      preLoaderRoute: typeof AdminImportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/orders': {
       id: '/api/public/orders'
       path: '/api/public/orders'
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminImportRoute: AdminImportRoute,
   AdminIndexRoute: AdminIndexRoute,
   ApiPublicOrdersRoute: ApiPublicOrdersRoute,
 }
