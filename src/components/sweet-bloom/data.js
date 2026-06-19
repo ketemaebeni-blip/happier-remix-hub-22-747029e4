@@ -78,24 +78,45 @@
       evangelina: "ኢቫንጀሊና / ጌጥ"
     }
   },
-      om: {
-        heroTitle: 'Selam Cake & Arts, <span class="accent">jaalalaan hojjetame.</span>',
-        heroSub: "Keekii dhaloota, fuudhaa, waggaa, eebbaa, hampers fi kanneen biroof — Selam Cake and Arts.",
-        searchPh: "Nyaata mi'aawaa barbaadi…",
-        popular: "Menuu Keenya", seeAll: "Hunda ilaali",
-        navHome: "Mana", navPay: "Kaffaltii", navAbout: "Waa'ee Keenya",
-        payTitle: 'Odeeffannoo <span class="accent">Kaffaltii</span>',
-        paySub: "Maloota kaffaltii hunda ni fudhanna.",
-        payHow: "Akkamitti kaffaluu",
-        payHowText: "Yeroo ajajtan menu kana agarsiisi. Maallaqa, kaardii ykn moobiilaan kaffaluu ni dandeessa.",
-        payCash: "Maallaqa",
-        aboutTitle: 'Selam Cake <em>and Arts</em>',
-        aboutSub: "Nyaata mi'aawaa hunda jaalalaafi wantoota gaarii waliin hojjenna.",
-        aboutDishes: "Nyaatota Mi'aawaa", aboutCats: "Kutaalee", aboutRating: "Sadarkaa",
-        aboutVisit: "Nu daawwadhaa", aboutHours: "Wix–Dil · Guyyaa Banaa<br/>Finfinnee, Itoophiyaa",
-        chefSpecial: "Filannoo Beekkaa", ingredients: "Wantoota Ijoo", extras: "Dabalata Bilisaa",
-        cats: { all: "Hunda", birthday: "Dhaloota", wedding: "Fuudhaa", desserts: "Mi'aawaa", hampers: "Kennaa", anniversary: "Waggaa", graduation: "Eebbaa", others: "Kanneen Biroo" }
-      }
+  om: {
+    heroTitle: 'Selam Cake & Arts, <span class="accent">jaalalaan hojjetame.</span>',
+    heroSub: "Keekii dhaloota, fuudhaa, waggaa, eebbaa, hampers fi kanneen biroof — Selam Cake and Arts.",
+    searchPh: "Nyaata mi'aawaa barbaadi…",
+    popular: "Menuu Keenya", seeAll: "Hunda ilaali",
+    navHome: "Mana", navPay: "Kaffaltii", navAbout: "Waa'ee Keenya",
+    payTitle: 'Odeeffannoo <span class="accent">Kaffaltii</span>',
+    paySub: "Maloota kaffaltii hunda ni fudhanna.",
+    payHow: "Akkamitti kaffaluu",
+    payHowText: "Yeroo ajajtan menu kana agarsiisi. Maallaqa, kaardii ykn moobiilaan kaffaluu ni dandeessa.",
+    payCash: "Maallaqa",
+    aboutTitle: 'Selam Cake <em>and Arts</em>',
+    aboutSub: "Nyaata mi'aawaa hunda jaalalaafi wantoota gaarii waliin hojjenna.",
+    aboutDishes: "Nyaatota Mi'aawaa", aboutCats: "Kutaalee", aboutRating: "Sadarkaa",
+    aboutVisit: "Nu daawwadhaa", aboutHours: "Wix–Dil · Guyyaa Banaa<br/>Finfinnee, Itoophiyaa",
+    chefSpecial: "Filannoo Beekkaa", ingredients: "Wantoota Ijoo", extras: "Dabalata Bilisaa",
+    cats: {
+      all: "Hunda",
+      "bridal-shower": "Bridal Shower",
+      "baby-shower": "Baby Shower",
+      christening: "Christening",
+      engagement: "Engagement",
+      "six-month": "6-Month",
+      "cake-package": "Cake & Package",
+      "graduation-kids": "Graduation for Kids",
+      nikah: "Nikah",
+      "mini-cake": "Mini Cake",
+      torta: "Torta",
+      graduation: "Graduation",
+      "birthday-girls": "Birthday — Girls",
+      "birthday-boys": "Birthday — Boys",
+      "birthday-women": "Birthday — Adult Women",
+      "birthday-men": "Birthday — Adult Men",
+      proposal: "Proposal",
+      anniversary: "Anniversary",
+      wedding: "Wedding",
+      evangelina: "Evangelina / Custom"
+    }
+  }
     };
 
     /* ═══ INGREDIENT ICONS (SVG paths mapped to ingredient names) ═══ */
