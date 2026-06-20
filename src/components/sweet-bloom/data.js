@@ -152,18 +152,11 @@
       { id: "engagement", img: CIMG("photo-1464349095431-e9a21285b5f3") },
       { id: "six-month", img: CIMG("photo-1535254973040-607b474cb50d") },
       { id: "cake-package", img: CIMG("photo-1607920591413-4ec007e70023") },
-      { id: "graduation-kids", img: CIMG("photo-1530648672449-81f6c723e2f1") },
       { id: "nikah", img: CIMG("photo-1622896784083-cc051313dbab") },
       { id: "mini-cake", img: CIMG("photo-1486427944299-d1955d23e34d") },
       { id: "torta", img: CIMG("photo-1535141192574-5d4897c12636") },
-      { id: "graduation", img: CIMG("photo-1530648672449-81f6c723e2f1") },
-      { id: "birthday-girls", img: CIMG("photo-1535254973040-607b474cb50d") },
-      { id: "birthday-boys", img: CIMG("photo-1578985545062-69928b1d9587") },
-      { id: "birthday-women", img: CIMG("photo-1464349095431-e9a21285b5f3") },
-      { id: "birthday-men", img: CIMG("photo-1565958011703-44f9829ba187") },
       { id: "proposal", img: CIMG("photo-1557925923-cd4648e211a0") },
       { id: "anniversary", img: CIMG("photo-1557925923-cd4648e211a0") },
-      { id: "wedding", img: CIMG("photo-1623428187969-5da2dcea5ebf") },
       { id: "evangelina", img: CIMG("photo-1578985545062-69928b1d9587") },
     ];
 
