@@ -82,24 +82,16 @@
       all: "Hunda",
       "bridal-shower": "Bridal Shower",
       "baby-shower": "Baby Shower",
-      christening: "Christening",
-      engagement: "Engagement",
       "six-month": "6-Month",
       "cake-package": "Cake & Package",
-      "graduation-kids": "Graduation for Kids",
       nikah: "Nikah",
       "mini-cake": "Mini Cake",
       torta: "Torta",
-      graduation: "Graduation",
-      "birthday-girls": "Birthday — Girls",
-      "birthday-boys": "Birthday — Boys",
-      "birthday-women": "Birthday — Adult Women",
-      "birthday-men": "Birthday — Adult Men",
       proposal: "Proposal",
       anniversary: "Anniversary",
-      wedding: "Wedding",
       evangelina: "Evangelina / Custom"
     }
+
   }
     };
 
