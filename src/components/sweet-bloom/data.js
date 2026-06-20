@@ -24,18 +24,11 @@
           engagement: "Engagement",
           "six-month": "6-Month Cake",
           "cake-package": "Cake & Package",
-          "graduation-kids": "Graduation for Kids",
           nikah: "Nikah Cake",
           "mini-cake": "Mini Cake",
           torta: "Torta",
-          graduation: "Graduation Cake",
-          "birthday-girls": "Birthday — Girls",
-          "birthday-boys": "Birthday — Boys",
-          "birthday-women": "Birthday — Adult Women",
-          "birthday-men": "Birthday — Adult Men",
           proposal: "Proposal Cake",
           anniversary: "Anniversary Cake",
-          wedding: "Wedding Cake",
           evangelina: "Evangelina / Custom"
         }
       },
@@ -63,18 +56,11 @@
       engagement: "ምርመራ",
       "six-month": "6-ወር ኬክ",
       "cake-package": "ኬክ እና ጥቅል",
-      "graduation-kids": "የህጻናት ምረቃ",
       nikah: "ኒካህ ኬክ",
       "mini-cake": "ሚኒ ኬክ",
       torta: "ቶርታ",
-      graduation: "ምረቃ ኬክ",
-      "birthday-girls": "ልደት — ህጻናት",
-      "birthday-boys": "ልደት — ወንድ ልጆች",
-      "birthday-women": "ልደት — ከ20 ዓመት ላይ",
-      "birthday-men": "ልደት — ከ20 ዓመት ላይ",
       proposal: "የጥያቄ ኬክ",
       anniversary: "ዓመታዊ",
-      wedding: "ሰርግ",
       evangelina: "ኢቫንጀሊና / ጌጥ"
     }
   },
@@ -102,18 +88,11 @@
       engagement: "Engagement",
       "six-month": "6-Month",
       "cake-package": "Cake & Package",
-      "graduation-kids": "Graduation for Kids",
       nikah: "Nikah",
       "mini-cake": "Mini Cake",
       torta: "Torta",
-      graduation: "Graduation",
-      "birthday-girls": "Birthday — Girls",
-      "birthday-boys": "Birthday — Boys",
-      "birthday-women": "Birthday — Adult Women",
-      "birthday-men": "Birthday — Adult Men",
       proposal: "Proposal",
       anniversary: "Anniversary",
-      wedding: "Wedding",
       evangelina: "Evangelina / Custom"
     }
   }
@@ -173,31 +152,18 @@
       { id: "engagement", img: CIMG("photo-1464349095431-e9a21285b5f3") },
       { id: "six-month", img: CIMG("photo-1535254973040-607b474cb50d") },
       { id: "cake-package", img: CIMG("photo-1607920591413-4ec007e70023") },
-      { id: "graduation-kids", img: CIMG("photo-1530648672449-81f6c723e2f1") },
       { id: "nikah", img: CIMG("photo-1622896784083-cc051313dbab") },
       { id: "mini-cake", img: CIMG("photo-1486427944299-d1955d23e34d") },
       { id: "torta", img: CIMG("photo-1535141192574-5d4897c12636") },
-      { id: "graduation", img: CIMG("photo-1530648672449-81f6c723e2f1") },
-      { id: "birthday-girls", img: CIMG("photo-1535254973040-607b474cb50d") },
-      { id: "birthday-boys", img: CIMG("photo-1578985545062-69928b1d9587") },
-      { id: "birthday-women", img: CIMG("photo-1464349095431-e9a21285b5f3") },
-      { id: "birthday-men", img: CIMG("photo-1565958011703-44f9829ba187") },
       { id: "proposal", img: CIMG("photo-1557925923-cd4648e211a0") },
       { id: "anniversary", img: CIMG("photo-1557925923-cd4648e211a0") },
-      { id: "wedding", img: CIMG("photo-1623428187969-5da2dcea5ebf") },
       { id: "evangelina", img: CIMG("photo-1578985545062-69928b1d9587") },
     ];
 
     /* ═══ DISHES ═══ */
     const IMG = p => `https://images.unsplash.com/${p}?auto=format&fit=crop&w=700&q=80`;
     export const DISHES = [
-      { id: 1, cat: "birthday-girls", img: IMG("photo-1535254973040-607b474cb50d"), tag: "BESTSELLER", price: 850, currency: "ETB", descEN: "Colorful birthday cake with sprinkles, vanilla buttercream and a celebratory candle.", ingredients: [["Vanilla","Vanilla"],["Butter","Butter"],["Eggs","Eggs"],["Sugar","Sugar"]], nameEN: "Classic Birthday Cake", subEN: "Vanilla Buttercream & Sprinkles" },
-      { id: 2, cat: "birthday-boys", img: IMG("photo-1578985545062-69928b1d9587"), tag: "POPULAR", price: 950, currency: "ETB", descEN: "Rich chocolate fudge birthday cake — perfect for the chocolate lover's big day.", ingredients: [["Chocolate","Chocolate"],["Cocoa","Cocoa"],["Butter","Butter"],["Eggs","Eggs"]], nameEN: "Chocolate Birthday Cake", subEN: "Triple Layer Fudge" },
-      { id: 3, cat: "birthday-women", img: IMG("photo-1464349095431-e9a21285b5f3"), tag: "FAVOURITE", price: 900, currency: "ETB", descEN: "Stunning red velvet with cream cheese frosting — a birthday classic.", ingredients: [["Red Dye","Red Dye"],["Cream Cheese","Cream Cheese"],["Butter","Butter"],["Eggs","Eggs"]], nameEN: "Red Velvet Birthday", subEN: "Cream Cheese Frosting" },
-      { id: 4, cat: "birthday-girls", img: IMG("photo-1557925923-cd4648e211a0"), tag: "KIDS", price: 800, currency: "ETB", descEN: "A fun, themed cake for kids — customisable with characters and colors.", ingredients: [["Vanilla","Vanilla"],["Butter","Butter"],["Sugar","Sugar"],["Eggs","Eggs"]], nameEN: "Kids Theme Cake", subEN: "Custom Character Design" },
-
-      { id: 5, cat: "wedding", img: IMG("photo-1623428187969-5da2dcea5ebf"), tag: "ELEGANT", price: 3500, currency: "ETB", descEN: "Three-tier wedding cake with delicate floral piping and pearl details.", ingredients: [["Vanilla","Vanilla"],["Cream Cheese","Cream Cheese"],["Butter","Butter"],["Eggs","Eggs"]], nameEN: "Three-Tier Wedding Cake", subEN: "Floral & Pearl Design" },
-      { id: 6, cat: "wedding", img: IMG("photo-1535141192574-5d4897c12636"), tag: "LUXURY", price: 4800, currency: "ETB", descEN: "Luxurious white fondant wedding cake with gold leaf accents.", ingredients: [["Vanilla","Vanilla"],["Butter","Butter"],["Sugar","Sugar"],["Eggs","Eggs"]], nameEN: "Gold Leaf Wedding Cake", subEN: "White Fondant Luxury" },
+      { id: 7, cat: "nikah", img: IMG("photo-1622896784083-cc051313dbab"), tag: "ROMANTIC", price: 4200, currency: "ETB", descEN: "Soft blush rosette nikah cake — romantic and timeless.", ingredients: [["Strawberry","Strawberry"],["Butter","Butter"],["Cream Cheese","Cream Cheese"],["Eggs","Eggs"]], nameEN: "Rosette Nikah Cake", subEN: "Blush Buttercream Roses" },
       { id: 7, cat: "nikah", img: IMG("photo-1622896784083-cc051313dbab"), tag: "ROMANTIC", price: 4200, currency: "ETB", descEN: "Soft blush rosette nikah cake — romantic and timeless.", ingredients: [["Strawberry","Strawberry"],["Butter","Butter"],["Cream Cheese","Cream Cheese"],["Eggs","Eggs"]], nameEN: "Rosette Nikah Cake", subEN: "Blush Buttercream Roses" },
 
       { id: 8, cat: "torta", img: IMG("photo-1565958011703-44f9829ba187"), tag: "CREAMY", price: 620, currency: "ETB", descEN: "Luscious strawberry torta on a buttery graham crust with fresh berries.", ingredients: [["Strawberry","Strawberry"],["Cream Cheese","Cream Cheese"],["Graham","Graham"],["Butter","Butter"]], nameEN: "Strawberry Torta", subEN: "1kg / 2kg / 3kg / 4kg" },
@@ -213,9 +179,7 @@
       { id: 16, cat: "anniversary", img: IMG("photo-1535254973040-607b474cb50d"), tag: "ELEGANT", price: 1400, currency: "ETB", descEN: "Two-tier anniversary cake with gold accents — celebrate the milestone in style.", ingredients: [["Vanilla","Vanilla"],["Butter","Butter"],["Eggs","Eggs"],["Sugar","Sugar"]], nameEN: "Gold Accent Two-Tier", subEN: "Milestone Celebration" },
       { id: 17, cat: "engagement", img: IMG("photo-1464349095431-e9a21285b5f3"), tag: "CLASSIC", price: 1100, currency: "ETB", descEN: "Classic red velvet engagement cake with elegant piping.", ingredients: [["Red Dye","Red Dye"],["Cream Cheese","Cream Cheese"],["Butter","Butter"],["Eggs","Eggs"]], nameEN: "Engagement Red Velvet", subEN: "Elegant Piping" },
 
-      { id: 18, cat: "graduation", img: IMG("photo-1530648672449-81f6c723e2f1"), tag: "CONGRATS", price: 1000, currency: "ETB", descEN: "Graduation cake topped with a fondant cap and scroll — celebrate the achievement.", ingredients: [["Vanilla","Vanilla"],["Butter","Butter"],["Sugar","Sugar"],["Eggs","Eggs"]], nameEN: "Graduation Cap Cake", subEN: "Fondant Cap & Scroll" },
-      { id: 19, cat: "graduation-kids", img: IMG("photo-1578985545062-69928b1d9587"), tag: "KIDS", price: 900, currency: "ETB", descEN: "Kids graduation cake — fun and bright for kindergarten or school milestones.", ingredients: [["Vanilla","Vanilla"],["Butter","Butter"],["Eggs","Eggs"],["Sugar","Sugar"]], nameEN: "Kids Graduation Cake", subEN: "Kindergarten Edition" },
-      { id: 20, cat: "graduation", img: IMG("photo-1557925923-cd4648e211a0"), tag: "THEMED", price: 1150, currency: "ETB", descEN: "Themed graduation cake in the graduate's school colors and discipline.", ingredients: [["Chocolate","Chocolate"],["Butter","Butter"],["Cream Cheese","Cream Cheese"],["Eggs","Eggs"]], nameEN: "School Colors Cake", subEN: "Themed Design" },
+
 
       { id: 21, cat: "baby-shower", img: IMG("photo-1606313564200-e75d5e30476c"), tag: "BABY", price: 1100, currency: "ETB", descEN: "Sweet baby shower cake — pastel colors and adorable fondant toppers.", ingredients: [["Vanilla","Vanilla"],["Butter","Butter"],["Eggs","Eggs"],["Sugar","Sugar"]], nameEN: "Baby Shower Cake", subEN: "Pastel Fondant" },
       { id: 22, cat: "proposal", img: IMG("photo-1551106652-a5bcf4b29ab6"), tag: "PROPOSAL", price: 1500, currency: "ETB", descEN: "Surprise proposal cake with personalised message — make the moment unforgettable.", ingredients: [["Vanilla","Vanilla"],["Butter","Butter"],["Sugar","Sugar"],["Eggs","Eggs"]], nameEN: "Proposal Surprise Cake", subEN: "Personalised Message" },
